@@ -1,37 +1,42 @@
-
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-require($_SERVER['DOCUMENT_ROOT'] . '/config/master_config.php');
-// Call set_include_path() as needed to point to your client library.
-require_once 'src/Google_Client.php';
-require_once 'src/contrib/Google_YouTubeService.php';
+// initialize YouTube client
+$GoogleClient = new Google_Client();
+$GoogleClient->setDeveloperKey($MABOW_GOOGLEDEVELOPER_KEY);
+$YouTube = new Google_YoutubeService($GoogleClient);
 
-  /* Set $DEVELOPER_KEY to the "API key" value from the "Access" tab of the
-  Google APIs Console <http://code.google.com/apis/console#access>
-  Please ensure that you have enabled the YouTube Data API for your project. */
-  $DEVELOPER_KEY = $googleDeveloperKey;
+/*
+YouTube_Channels = array('id', 'channel_id', 'channel_name', 'upload_list_id', 'status');
+YouTube_Programs = array('id', 'name', 'updated_time_type');
+YouTube_Channel_Program = array('id', 'program', 'channel', 'status');
+YouTube_Videos = array('id', 'video_id', 'title', 'description', 'program', 'channel', 'uploaded_time', 'status');
 
-  $client = new Google_Client();
-  $client->setDeveloperKey($DEVELOPER_KEY);
+Users = array('id', 'fname', 'lname', 'name', 'facebook_id', 'registered_time', 'lastlogin_time');
+Users_Lists = array('id', 'name', 'type', 'added_time', 'lastmodified_time');
+Users_List_Sort = array('id' ,'list_id', 'user', 'entity', 'entityType', 'weight');
 
-  $youtube = new Google_YoutubeService($client);
+*/
+try {
 
-  try {
-   
-      $uploadsListId = 'UU1b8xc89zjg7S-VJiKfidPQ';
-
-      $playlistItemsResponse = $youtube->playlistItems->listPlaylistItems('snippet, contentDetails', array(
-        'playlistId' => $uploadsListId,
+  $uploadsListId = 'UU1b8xc89zjg7S-VJiKfidPQ';
+  $apiContent = 'snippet, contentDetails';
+  $apiParams = array(
+    'playlistId' => $uploadsListId,
         'maxResults' => 50
-      ));
+  );
 
-  } catch (Google_ServiceException $e) {
-    $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>',
-      htmlspecialchars($e->getMessage()));
-  } catch (Google_Exception $e) {
-    $htmlBody .= sprintf('<p>An client error occurred: <code>%s</code></p>',
-      htmlspecialchars($e->getMessage()));
-  }
+    $playlistItemsResponse = $YouTube->playlistItems->listPlaylistItems($apiContent, $apiParams);
 
-echo '<pre>' . print_r($playlistItemsResponse) . '</pre>';
-?>
+} catch (Google_ServiceException $e) {
+  $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+} catch (Google_Exception $e) {
+  $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+}
+
+if (count($playlistItemsResponse['items'])) {
+    foreach ($playlistItemsResponse['items'] as $video) {
+        var_dump($video['snippet']['title']);
+    }
+}
+  
