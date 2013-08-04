@@ -34,6 +34,8 @@ try {
   $htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
 }
 
+$title = 'MaBow - Video List';
+
 include $_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/header.template.php';
 
 

@@ -1,1 +1,6 @@
 ErrorDocument 404 /frontend/error/404.html
+
+Options +FollowSymLinks  
+Options +Indexes  
+RewriteEngine On 
+RewriteRule ^list/ /frontend/list.php [NC,L]  
