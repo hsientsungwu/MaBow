@@ -1,0 +1,3 @@
+ErrorDocument 404 /frontend/error/404.html
+
+RewriteRule ^index.php /frontend/home.php [R=301]
