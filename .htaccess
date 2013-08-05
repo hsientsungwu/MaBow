@@ -3,4 +3,7 @@ ErrorDocument 404 /frontend/error/404.html
 Options +FollowSymLinks  
 Options +Indexes  
 RewriteEngine On 
-RewriteRule ^list/ /frontend/list.php [NC,L]  
+RewriteRule ^list/ /frontend/list.php [NC,L] 
+RewriteRule ^account/ /frontend/account.php [NC,L]
+RewriteRule ^account/login/ /frontend/connect.php [NC,L]
+RewriteRule ^account/favorite/ /frontend/favorite.php [NC,L]

@@ -45,3 +45,6 @@ $fb = new Facebook(
   		'secret' => $fbSetting->appSecret,
 	)
 );
+
+// set default time zone
+date_default_timezone_set('America/New_York');

@@ -578,8 +578,14 @@ abstract class BaseFacebook
    */
   public function getLoginUrl($params=array()) {
     $this->establishCSRFTokenState();
-    $currentUrl = $this->getCurrentUrl();
 
+    if (isset($params['redirect_uri'])) {
+      $currentUrl = $params['redirect_uri'];
+      unset($params['redirect_uri']);
+    } else {
+      $currentUrl = $this->getCurrentUrl();
+    }
+    
     // if 'scope' is passed as an array, convert to comma separated list
     $scopeParams = isset($params['scope']) ? $params['scope'] : null;
     if ($scopeParams && is_array($scopeParams)) {
@@ -606,11 +612,18 @@ abstract class BaseFacebook
    * @return string The URL for the logout flow
    */
   public function getLogoutUrl($params=array()) {
+    if (isset($params['next'])) {
+      $currentUrl = $params['next'];
+      unset($params['next']);
+    } else {
+      $currentUrl = $this->getCurrentUrl();
+    }
+
     return $this->getUrl(
       'www',
       'logout.php',
       array_merge(array(
-        'next' => $this->getCurrentUrl(),
+        'next' => $currentUrl,
         'access_token' => $this->getUserAccessToken(),
       ), $params)
     );

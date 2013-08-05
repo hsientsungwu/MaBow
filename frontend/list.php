@@ -23,7 +23,7 @@ try {
   $apiContent = 'snippet, contentDetails';
   $apiParams = array(
     'playlistId' => $uploadsListId,
-        'maxResults' => 50
+    'maxResults' => 50
   );
 
     $playlistItemsResponse = $YouTube->playlistItems->listPlaylistItems($apiContent, $apiParams);
