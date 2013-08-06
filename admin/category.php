@@ -24,49 +24,44 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 ?>
 <div class="row">
 	<div class="large-12 large-centered columns">
-		<div class="row">
-			<div class="large-12 large-centered columns">	
-				<table>
-				  	<thead>
-					    <tr>
-					    	<th width="100">ID</th>
-					      	<th width="200">Name</th>
-					      	<th width="300">Description</th>
-					      	<th width="100">Action</th>
-					    </tr>
-				  	</thead>
-				  	<tbody>
-				  		<?php
-				  			foreach ($categories as $data) {
-				  				echo "<tr>";
-				  				echo "<td>" . $data['id'] . "</td>";
-				  				echo "<td>" . $data['name'] . "</td>";
-				  				echo "<td>" . $data['description'] . "</td>";
-				  				echo "<td>Edit | Delete</td>";
-				  				echo "</tr>";
-				  			}
-				  		?>
-					    <tr>
-					      	<td>Content Goes Here</td>
-					      	<td>Content Goes Here</td>
-					      	<td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-					      	<td>Edit | Delete</td>
-					    </tr>
-					    <tr>
-					      	<td>Content Goes Here</td>
-					      	<td>Content Goes Here</td>
-					      	<td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-					      	<td>Edit | Delete</td>
-					    </tr>
-					    <tr>
-					      	<td>Content Goes Here</td>
-					      	<td>Content Goes Here</td>
-					      	<td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-					      	<td>Edit | Delete</td>
-					    </tr>
-				  	</tbody>
-				</table>
-			</div>
+		<div class="section-container tabs" data-section="tabs">
+			<section>
+			    <p class="title" data-section-title><a href="#">Data</a></p>
+			    <div class="content" data-section-content>
+			      	<div class="row">
+						<div class="large-12 large-centered columns">	
+							<table>
+							  	<thead>
+								    <tr>
+								    	<th width="100">ID</th>
+								      	<th width="300">Name</th>
+								      	<th width="450">Description</th>
+								      	<th width="100">Action</th>
+								    </tr>
+							  	</thead>
+							  	<tbody>
+							  		<?php
+							  			foreach ($categories as $data) {
+							  				echo "<tr>";
+							  				echo "<td>" . $data['id'] . "</td>";
+							  				echo "<td>" . $data['name'] . "</td>";
+							  				echo "<td>" . $data['description'] . "</td>";
+							  				echo "<td>Edit | Delete</td>";
+							  				echo "</tr>";
+							  			}
+							  		?>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+			    </div>
+			</section>
+			<section>
+			    <p class="title" data-section-title><a href="#">Sort</a></p>
+			    <div class="content" data-section-content>
+			      	<p>Content of section 2.</p>
+			    </div>
+			</section>
 		</div>
 	</div>
 </div>
@@ -102,11 +97,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		</form>
 	</div>
 </div>
-
+<script>
+	$(document).foundation('section');
+</script>
 <?php
-$scripts = array(
-  '<script src="/js/admin.js" ></script>',
-);
+$scripts = array();
 
 include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/footer.template.php';
 ?>
