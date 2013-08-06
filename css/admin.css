@@ -3,3 +3,7 @@
 	float: none;
 	display: inline-block;
 }
+
+.large-centered {
+	text-align: center;
+}

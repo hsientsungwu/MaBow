@@ -19,9 +19,9 @@ require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 		<div class="row">
 			<div class="large-12 large-centered columns">
 				<div class="row">
-					<div class="large-5 large-centered columns">
+					<div class="large-7 large-centered columns">
 						<ul class="inline-list admin-nav">
-							<li><a href="#">Category</a></li>
+							<li><a href="/admin/category.php">Category</a></li>
 							<li><a href="#">Program</a></li>
 							<li><a href="#">List</a></li>
 							<li><a href="#">Channel</a></li>
