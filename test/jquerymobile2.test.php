@@ -14,9 +14,12 @@
 		</div>
 		<ul data-role="listview" data-inset="true">
 		    <li><a href="video.html" data-transition="slide" data-inline="true">111</a></li>
-		    <li><a href="#">222</a></li>
+		    <li><a href="video2.html" data-transition="slide" data-inline="true">222</a></li>
 		    <li><a href="#">333</a></li>
 		    <li><a href="#">444</a></li>
 		</ul>
+		<div style="display:none;">
+			<iframe id="video" src="//www.youtube.com/embed/b0z8o-kRJ2k?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>
+		</div>
 	</body>
 </html>
