@@ -1,7 +1,3 @@
-<?php 
-require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
-?>
-
 <html>
 	<head>
 		<title><?php echo ($title ? $title : 'MaBow - 媽寶'); ?></title>

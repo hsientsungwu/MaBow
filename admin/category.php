@@ -1,4 +1,24 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+
+if ($_POST['category']) {
+	$category = $_POST['category'];
+
+	if ($category['name'] == '' || $category['description'] == '') {
+		$errors[] = "Category name / descriptions cannot be empty";
+	} else {
+		$newCategory = array(
+			'name' => $category['name'],
+			'description' => $category['description']
+		);
+
+		$newCategoryId = $db->insert($newCategory, 'Category');
+
+		if ($newCategoryId) $success[] = 'New category added';
+	}
+}
+
+$categories = $db->fetchRows("SELECT id, name, description FROM Category");
 
 include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 ?>
@@ -16,6 +36,16 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 					    </tr>
 				  	</thead>
 				  	<tbody>
+				  		<?php
+				  			foreach ($categories as $data) {
+				  				echo "<tr>";
+				  				echo "<td>" . $data['id'] . "</td>";
+				  				echo "<td>" . $data['name'] . "</td>";
+				  				echo "<td>" . $data['description'] . "</td>";
+				  				echo "<td>Edit | Delete</td>";
+				  				echo "</tr>";
+				  			}
+				  		?>
 					    <tr>
 					      	<td>Content Goes Here</td>
 					      	<td>Content Goes Here</td>
@@ -43,19 +73,19 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 
 <div class="row">
 	<div class="large-12 large-centered columns">
-		<form>
+		<form action="/admin/category.php" method="POST">
 		  	<fieldset>
 		    	<legend>Add Category</legend>
 
 			    <div class="row">
 			      <div class="large-12 columns">
-			        <input type="text" placeholder="Category Name">
+			        <input type="text" name="category[name]" placeholder="Category Name">
 			      </div>
 			    </div>
 			    
 			    <div class="row">
 			      	<div class="large-12 columns">
-			        	<textarea placeholder="Category Description"></textarea>
+			        	<textarea name="category[description]" placeholder="Category Description"></textarea>
 			      	</div>
 			    </div>
 
