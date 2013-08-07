@@ -7,3 +7,24 @@
 .large-centered {
 	text-align: center;
 }
+
+#sortable {
+	margin-bottom: 0;
+}
+
+#sortable li {
+	list-style-type: none;
+}
+
+#sortable .panel {
+	padding: 1px;
+	margin-bottom: 5px;
+}
+
+.ui-state-default .ui-icon {
+	background-image: url('/img/ui-icons_888888_256x240.png');
+}
+
+.ui-icon-arrowthick-2-n-s {
+	background-position: -128px -48px;
+}

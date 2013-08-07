@@ -11,6 +11,14 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 		<script src="/js/vendor/custom.modernizr.js"></script>
 		<script src="/js/foundation.min.js"></script>
+
+		<?php
+			if (count($headers)) {
+				foreach ($headers as $header) {
+					echo $header;
+				}
+			}
+		?>
 	</head>
 	<body>
 		<div class="row">
@@ -18,11 +26,10 @@
 				<div class="row">
 					<div class="large-7 large-centered columns">
 						<ul class="inline-list admin-nav">
-							<li><a href="/admin/category.php">Category</a></li>
-							<li><a href="#">Program</a></li>
-							<li><a href="#">List</a></li>
-							<li><a href="#">Channel</a></li>
-							<li><a href="/admin/index.php">Stats</a></li>
+							<li><a href="/admin/category.php">種類</a></li>
+							<li><a href="#">節目</a></li>
+							<li><a href="#">YouTube 頻道</a></li>
+							<li><a href="/admin/index.php">統計</a></li>
 						</ul>
 					</div>
 				</div>
