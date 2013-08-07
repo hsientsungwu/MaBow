@@ -72,9 +72,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 					      			foreach ($categories as $data) {
 					      				echo '<li class="ui-state-default" data-category="' . $data['id'] . '">
 					      						<div class="panel radius">
-					      						<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' 
+					      						<span class="sort-action"><img src="/img/sort-icon.png" /></span>'
 					      						. $data['name'] . 
-					      					'</div></li>';
+					      						'<span class="list-action"><img src="/img/edit-icon.png" /><img src="/img/delete-icon.png"/></span>
+					      					</div></li>';
 					      			}
 					      		?>
 							</ul>

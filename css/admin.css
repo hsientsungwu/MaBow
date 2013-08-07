@@ -28,3 +28,22 @@
 .ui-icon-arrowthick-2-n-s {
 	background-position: -128px -48px;
 }
+
+.sort-action {
+	float: left;
+}
+
+.sort-action > img {
+	margin-left: 3px;
+	height: 20px;
+	width: 20px;
+}
+
+.list-action {
+	float: right;
+}
+.list-action > img {
+	margin-right: 3px;
+	height: 20px;
+	width: 20px;
+}

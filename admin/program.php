@@ -5,17 +5,19 @@ if ($_POST['program']) {
 	$program = $_POST['program'];
 
 	if ($program['name'] == '' || $program['description'] == '') {
-		$errors[] = "Category name / descriptions cannot be empty";
+		$errors[] = "Program name / descriptions cannot be empty";
 	} else {
+		$lastWeight = $db->fetchCell("SELECT weight FROM Program ORDER BY weight DESC");
 
 		$newProgram = array(
 			'name' => $program['name'],
 			'description' => $program['description'],
 			'category' => $program['category'],
+			'weight' => $lastWeight+1,
 			'time_type' => $program['time_type'],
 		);
 
-		$newProgramId = $db->insert($newProgram, 'YouTube_Programs');
+		$newProgramId = $db->insert($newProgram, 'Program');
 
 		if ($newCategoryId) $success[] = 'New program added';
 	}
@@ -43,7 +45,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 									<div class="large-12 large-centered columns">
 								      	<ul class="program-sortable" id="sortable">
 								      		<?php
-								      			$programsForCategory = $db->fetchRows("SELECT id, name FROM YouTube_Programs WHERE category = ?", array($category['id']));
+								      			$programsForCategory = $db->fetchRows("SELECT id, name FROM Program WHERE category = ?", array($category['id']));
 
 								      			foreach ($programsForCategory as $programData) {
 								      				echo '<li class="ui-state-default" data-category="' . $programData['id'] . '">
