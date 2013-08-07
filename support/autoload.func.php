@@ -10,6 +10,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/config/master_config.php');
 // common functions
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/Google_Client.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/contrib/Google_YouTubeService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/support/enum.php';
 
 function __autoload($className) {
 	$configRoot = $_SERVER['DOCUMENT_ROOT'] . '/config/';
