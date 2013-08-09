@@ -11,6 +11,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 		<script src="/js/vendor/custom.modernizr.js"></script>
 		<script src="/js/foundation.min.js"></script>
+		<script src="/js/admin.js"></script>
 
 		<?php
 			if (count($headers)) {
@@ -35,3 +36,25 @@
 				</div>
 			</div>
 		</div>
+		<?php 
+			if (count($errors) || count($success)) { ?>
+				<div class="row notification-container">
+					<div class="large-8 large-centered columns">
+						<?php 
+						if (count($errors)) {
+							echo '<div data-alert class="alert-box radius alert">';
+							echo implode('<br>', $errors);
+						}
+
+						if (count($success)) {
+							echo '<div data-alert class="alert-box radius">';
+							echo implode('<br>', $success);
+						}
+						
+		  				?>	
+		  					<a href="#" class="close">&times;</a>
+		  				</div>
+					</div>
+				</div>
+
+		<?php }

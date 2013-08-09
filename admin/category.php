@@ -2,23 +2,49 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 if ($_POST['category']) {
-	$category = $_POST['category'];
+	$category = clean_input($_POST['category']);
 
 	if ($category['name'] == '' || $category['description'] == '') {
-		$errors[] = "Category name / descriptions cannot be empty";
+		$errors[] = "種類名稱/敘述不能空白！";
 	} else {
 		$lastWeight = $db->fetchCell("SELECT weight FROM Category ORDER BY weight DESC");
 
 		$newCategory = array(
 			'name' => $category['name'],
-			'description' => $category['description'],
-			'weight' => $lastWeight+1,
+			'description' => $category['description']
 		);
 
-		$newCategoryId = $db->insert($newCategory, 'Category');
+		if (isset($category['id']) && is_numeric($category['id'])) {
+			$affected = $db->update($newCategory, 'Category', 'id = ?', array($category['id']));
 
-		if ($newCategoryId) $success[] = 'New category added';
+			if ($affected) $success[] = '種類已更新';
+		} else {
+			$newCategory['weight'] = $lastWeight+1;
+			$affected = $db->insert($newCategory, 'Category');
+
+			if ($affected) $success[] = '種類已新增';
+		}
+
+		
 	}
+} elseif ($_POST['sort']) {
+	$categorySort = clean_input($_POST['sort']);
+
+	for ($i = 0; $i < count($categorySort); $i++) {
+		$db->update(array('weight' => $i), 'Category', "id = ?", array($categorySort[$i]));
+	}
+
+	die('success');
+} elseif ($_GET['id']) {
+	$_GET['id'] = clean_input($_GET['id']);
+
+	$editCategory = $db->fetchRow("SELECT * FROM Category WHERE id = ?", array($_GET['id']));
+} elseif ($_GET['delete']) {
+	$_GET['delte'] = clean_input($_GET['delete']);
+
+	$affected = $db->delete("Category", "id = ?", array($_GET['delete']));
+
+	if ($affected) $success[] = "種類已移除";
 }
 
 $categories = $db->fetchRows("SELECT id, name, description FROM Category ORDER BY weight ASC");
@@ -51,7 +77,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 							  				echo "<td>" . $data['id'] . "</td>";
 							  				echo "<td>" . $data['name'] . "</td>";
 							  				echo "<td>" . $data['description'] . "</td>";
-							  				echo "<td>修改 | 移除</td>";
+							  				echo "<td>
+							  						<a href='category.php?id=" . $data['id'] . "'>修改</a> | 
+							  						<a href='category.php?delete=" . $data['id'] . "'>移除</a>
+							  					</td>";
 							  				echo "</tr>";
 							  			}
 							  		?>
@@ -70,7 +99,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 					      	<ul class="category-sortable" id="sortable">
 					      		<?php
 					      			foreach ($categories as $data) {
-					      				echo '<li class="ui-state-default" data-category="' . $data['id'] . '">
+					      				echo '<li class="ui-state-default" id="' . $data['id'] . '">
 					      						<div class="panel radius">
 					      						<span class="sort-action"><img src="/img/sort-icon.png" /></span>'
 					      						. $data['name'] . 
@@ -80,6 +109,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 					      		?>
 							</ul>
 						</div>
+					</div>
 			    </div>
 			</section>
 		</div>
@@ -90,25 +120,29 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 	<div class="large-12 large-centered columns">
 		<form action="/admin/category.php" method="POST">
 		  	<fieldset>
-		    	<legend>新增種類</legend>
-
+		    	<legend><?php echo ($_GET['id'] ? '修改種類' : '新增種類'); ?></legend>
+		    	<?php 
+		    		if ($_GET['id']) {
+		    			echo '<input type="hidden" name="category[id]" value="' . $_GET['id'] . '">';
+		    		}
+		    	?>	
 			    <div class="row">
 			      <div class="large-12 columns">
-			        <input type="text" name="category[name]" placeholder="種類名稱">
+			        <input type="text" name="category[name]" placeholder="種類名稱" value="<?php echo $editCategory['name']; ?> ">
 			      </div>
 			    </div>
 			    
 			    <div class="row">
 			      	<div class="large-12 columns">
-			        	<textarea name="category[description]" placeholder="種類描述"></textarea>
+			        	<textarea name="category[description]" placeholder="種類描述"><?php echo $editCategory['description']; ?></textarea>
 			      	</div>
 			    </div>
 
 			    <div class="row">
 			    	<div class="large-12 columns">
 			    		<ul class="inline-list right">
-						  	<li><input type="submit" class="small radius button" value="新增種類"/></li>
-							<li><input type="reset" class="small radius button" value="取消"/></li>
+						  	<li><input type="submit" class="small radius button" value="<?php echo ($_GET['id'] ? '修改種類' : '新增種類'); ?>"/></li>
+							<li><a href="/admin/category.php" class="small radius button">取消</a></li>
 						</ul>
 			    	</div>
 			    </div>
@@ -118,12 +152,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 	</div>
 </div>
 <script>
-	$(document).foundation('section');
 
-	$(function() {
-	    $( "#sortable" ).sortable();
-	    $( "#sortable" ).disableSelection();
-  	});
+	$(document).ready( function(){ 
+		$(document).foundation('section');
+	});
+
 </script>
 <?php
 $scripts = array();
