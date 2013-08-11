@@ -8,15 +8,15 @@
 	text-align: center;
 }
 
-#sortable {
+.list-sortable {
 	margin-bottom: 0;
 }
 
-#sortable li {
+.list-sortable li {
 	list-style-type: none;
 }
 
-#sortable .panel {
+.list-sortable .panel {
 	padding: 1px;
 	margin-bottom: 5px;
 }
@@ -42,7 +42,7 @@
 .list-action {
 	float: right;
 }
-.list-action > img {
+.list-action > a > img {
 	margin-right: 3px;
 	height: 20px;
 	width: 20px;

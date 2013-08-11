@@ -5,13 +5,21 @@ $(document).ready( function() {
 		$(this).parent().fadeOut('slow');
 	});
 
+	// section container
+	if ($('.section-container').length > 0) {
+		$(document).foundation('section');
+	}
+
 	// sortable list
-	if ($('#sortable').length > 0 ) {
-		$("#sortable").sortable({ 
-			update: function() {  
-				var order = $('#sortable').sortable('toArray');
+	if ($('.list-sortable').length > 0 ) {
+		$(".list-sortable").sortable({ 
+			update: function() {
+				var category = $(this).data('list');
+
+				var order = $('#sortable-' + category).sortable('toArray');
 
 				var postData = {
+					type : category,
 					sort : order
 				};
 				

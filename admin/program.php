@@ -7,13 +7,15 @@ if ($_POST['program']) {
 	if ($program['name'] == '' || $program['description'] == '') {
 		$errors[] = "Program name / descriptions cannot be empty";
 	} else {
-		$lastWeight = $db->fetchCell("SELECT weight FROM Program ORDER BY weight DESC");
+		$lastWeight = $db->fetchCell("SELECT weight FROM Program WHERE category = ? ORDER BY weight DESC", array($program['category']));
+
+		if (!$lastWeight) $lastWeight = 0;
 
 		$newProgram = array(
 			'name' => $program['name'],
 			'description' => $program['description'],
 			'category' => $program['category'],
-			'weight' => $lastWeight+1,
+			'weight' => ($lastWeight ? $lastWeight+1 : 0),
 			'time_type' => $program['time_type'],
 		);
 
@@ -21,12 +23,24 @@ if ($_POST['program']) {
 
 		if ($newCategoryId) $success[] = 'New program added';
 	}
+} elseif ($_POST['sort'] && $_POST['type']) {
+	$programSort = clean_input($_POST['sort']);
+	$categoryId = clean_input($_POST['type']);
+
+	for ($i = 0; $i < count($programSort); $i++) {
+		echo $db->update(array('weight' => $i), 'Program', "id = ? AND category = ?", array($programSort[$i], $categoryId));
+	}
+
+	die('success');
+} elseif ($_GET['delete']) {
+	$deleteId = clean_input($_GET['delete']);
+
+	$affected = $db->delete("Program", "id = ?", array($deleteId));
+
+	if ($affected) $success[] = "節目已移除";
 }
 
-
 $categories = $db->fetchRows("SELECT id, name FROM Category ORDER BY weight ASC");
-
-$headers[] = '<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>';
 
 include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 ?>
@@ -43,20 +57,25 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 						    	
 								<div class="row">
 									<div class="large-12 large-centered columns">
-								      	<ul class="program-sortable" id="sortable">
+								      	<ul class="list-sortable" data-list="<?php echo $category['id']; ?>" id="sortable-<?php echo $category['id']; ?>">
 								      		<?php
-								      			$programsForCategory = $db->fetchRows("SELECT id, name FROM Program WHERE category = ?", array($category['id']));
+								      			$programsForCategory = $db->fetchRows("SELECT id, name, category FROM Program WHERE category = ? ORDER BY weight ASC", array($category['id']));
 
 								      			foreach ($programsForCategory as $programData) {
-								      				echo '<li class="ui-state-default" data-category="' . $programData['id'] . '">
+								      				echo '<li class="ui-state-default" id="' . $programData['id'] . '">
 								      						<div class="panel radius">
-								      						<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' 
-								      						. $programData['name'] . 
-								      					'</div></li>';
+								      						<span class="sort-action"><img src="/img/sort-icon.png" /></span>'
+					      									. $programData['name'] . 
+					      									'<span class="list-action">
+					      										<a href="program.php?id=' . $programData['id'] . '"><img src="/img/edit-icon.png" /></a>
+					      										<a href="program.php?delete=' . $programData['id'] . '"><img src="/img/delete-icon.png"/></a>
+					      									</span>
+					      								</div></li>';
 								      			}
 								      		?>
 										</ul>
 									</div>
+								</div>
 						    </div>
 						</section>
 					<?php
@@ -70,7 +89,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 	<div class="large-12 large-centered columns">
 		<form action="/admin/program.php" method="POST">
 		  	<fieldset>
-		    	<legend>新增節目</legend>
+		    	<legend><?php echo ($_GET['id'] ? '更新節目' : '新增節目'); ?></legend>
 
 		    	<div class="row">
 			    	<div class="large-12 columns">
@@ -112,7 +131,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 			    <div class="row">
 			    	<div class="large-12 columns">
 			    		<ul class="inline-list right">
-						  	<li><input type="submit" class="small radius button" value="新增節目"/></li>
+						  	<li><input type="submit" class="small radius button" value="<?php echo ($_GET['id'] ? '更新節目' : '新增節目'); ?>"/></li>
 							<li><input type="reset" class="small radius button" value="取消"/></li>
 						</ul>
 			    	</div>
@@ -122,14 +141,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		</form>
 	</div>
 </div>
-<script>
-	$(document).foundation('section');
 
-	$(function() {
-	    $( ".program-sortable" ).sortable();
-	    $( ".program-sortable" ).disableSelection();
-  	});
-</script>
 <?php
 $scripts = array();
 

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="/css/foundation.min.css" />
 		<link rel="stylesheet" href="/css/admin.css" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="/js/vendor/custom.modernizr.js"></script>
 		<script src="/js/foundation.min.js"></script>
 		<script src="/js/admin.js"></script>

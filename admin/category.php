@@ -16,16 +16,14 @@ if ($_POST['category']) {
 
 		if (isset($category['id']) && is_numeric($category['id'])) {
 			$affected = $db->update($newCategory, 'Category', 'id = ?', array($category['id']));
-
-			if ($affected) $success[] = '種類已更新';
+			$message = '種類已更新';
 		} else {
 			$newCategory['weight'] = $lastWeight+1;
 			$affected = $db->insert($newCategory, 'Category');
-
-			if ($affected) $success[] = '種類已新增';
+			$message = '種類已新增';
 		}
 
-		
+		if ($affected) $success[] = $message;
 	}
 } elseif ($_POST['sort']) {
 	$categorySort = clean_input($_POST['sort']);
@@ -49,61 +47,28 @@ if ($_POST['category']) {
 
 $categories = $db->fetchRows("SELECT id, name, description FROM Category ORDER BY weight ASC");
 
-$headers[] = '<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>';
-
 include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 ?>
 <div class="row">
 	<div class="large-12 large-centered columns">
 		<div class="section-container tabs" data-section="tabs">
 			<section>
-			    <p class="title" data-section-title><a href="#">種類細節</a></p>
-			    <div class="content" data-section-content>
-			      	<div class="row">
-						<div class="large-12 large-centered columns">	
-							<table>
-							  	<thead>
-								    <tr>
-								    	<th width="100">ID</th>
-								      	<th width="300">名稱</th>
-								      	<th width="450">描述</th>
-								      	<th width="100">功能列</th>
-								    </tr>
-							  	</thead>
-							  	<tbody>
-							  		<?php
-							  			foreach ($categories as $data) {
-							  				echo "<tr>";
-							  				echo "<td>" . $data['id'] . "</td>";
-							  				echo "<td>" . $data['name'] . "</td>";
-							  				echo "<td>" . $data['description'] . "</td>";
-							  				echo "<td>
-							  						<a href='category.php?id=" . $data['id'] . "'>修改</a> | 
-							  						<a href='category.php?delete=" . $data['id'] . "'>移除</a>
-							  					</td>";
-							  				echo "</tr>";
-							  			}
-							  		?>
-							  	</tbody>
-							</table>
-						</div>
-					</div>
-			    </div>
-			</section>
-			<section>
 			    <p class="title" data-section-title><a href="#">種類順序</a></p>
 			    <div class="content" data-section-content>
 			    	
 					<div class="row">
 						<div class="large-12 large-centered columns">
-					      	<ul class="category-sortable" id="sortable">
+					      	<ul class="list-sortable" data-list="category" id="sortable-category">
 					      		<?php
 					      			foreach ($categories as $data) {
 					      				echo '<li class="ui-state-default" id="' . $data['id'] . '">
 					      						<div class="panel radius">
 					      						<span class="sort-action"><img src="/img/sort-icon.png" /></span>'
 					      						. $data['name'] . 
-					      						'<span class="list-action"><img src="/img/edit-icon.png" /><img src="/img/delete-icon.png"/></span>
+					      						'<span class="list-action">
+					      							<a href="category.php?id=' . $data['id'] . '"><img src="/img/edit-icon.png" /></a>
+					      							<a href="category.php?delete=' . $data['id'] . '"><img src="/img/delete-icon.png"/></a>
+					      						</span>
 					      					</div></li>';
 					      			}
 					      		?>
@@ -151,13 +116,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		</form>
 	</div>
 </div>
-<script>
 
-	$(document).ready( function(){ 
-		$(document).foundation('section');
-	});
-
-</script>
 <?php
 $scripts = array();
 
