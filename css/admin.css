@@ -42,8 +42,17 @@
 .list-action {
 	float: right;
 }
+
 .list-action > a > img {
 	margin-right: 3px;
 	height: 20px;
 	width: 20px;
+}
+
+div.status-switch {
+	margin-bottom: 0;
+}
+
+.programSelect-Template {
+	display: none;
 }

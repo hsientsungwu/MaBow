@@ -31,5 +31,41 @@ $(document).ready( function() {
 
   		$("#sortable").disableSelection();
 	}
-	
+
+	// add new program to new channel
+	if ($('.programSelect-Template').length > 0) {
+		$('.add-program').click(function(e){
+			e.preventDefault();
+
+			var programSelect = $('.programSelect-Template').clone();
+
+			programSelect.removeClass('programSelect-Template').addClass('programSelect');
+			programSelect.children().children('select').attr('name', 'channel[programs][]')
+
+			$(this).parent().parent().append(programSelect);
+		});
+
+		$('.remove-program').on("click", function(e) {
+			e.preventDefault();
+
+			console.log('remove');
+		});
+	}
+
+	// status ajax
+	if ($('.status-switch').length > 0) {
+		$('.status-switch').change(function(e) {
+
+			var postData = {
+				action : 'status',
+				channel : $(this).data('channelid'),
+				status : $('.status:checked').data('status')
+			}
+
+			var ajaxUrl = window.location.pathname;
+
+			$.post(ajaxUrl,postData);
+		});
+	}
+
 });
