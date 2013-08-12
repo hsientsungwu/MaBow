@@ -118,7 +118,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 	</div>
 </div>
 
-<div class="row">
+<div class="row channel-form-container">
 	<div class="large-12 large-centered columns">
 		<form action="/admin/channel.php" method="POST">
 		  	<fieldset>
@@ -150,21 +150,23 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				     </div>
 			    </div>
 
-			    <div class="row programSelect-Template">
-			    	<div class="large-12 columns">
-				      	<select name="template" class="medium">
-				      		<option value="">Please select one</option>
-				      		<?php
-				      			$programs = $db->fetchRows("SELECT * FROM Program ORDER BY id");
+			    <div class="programSelect-Container">
+			    	<div class="row programSelect-Template">
+				    	<div class="large-12 columns">
+					      	<select name="template" class="medium">
+					      		<option value="">Please select one</option>
+					      		<?php
+					      			$programs = $db->fetchRows("SELECT * FROM Program ORDER BY id");
 
-				      			foreach ($programs as $index => $program) {
-				      				echo '<option value="' . $program['id'] . '">' . $program['name'] . '</option>';
-				      			}
-				      		?>
-				      	</select>
-				      	<button class="tiny button remove-program">移除節目</button>
-				    </div>
-				</div>
+					      			foreach ($programs as $index => $program) {
+					      				echo '<option value="' . $program['id'] . '">' . $program['name'] . '</option>';
+					      			}
+					      		?>
+					      	</select>
+					      	<button class="tiny button remove-program">移除節目</button>
+					    </div>
+					</div>
+			    </div>   
 
 			    <div class="row">
 			    	<div class="large-12 columns">

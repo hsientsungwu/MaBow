@@ -42,13 +42,13 @@ $(document).ready( function() {
 			programSelect.removeClass('programSelect-Template').addClass('programSelect');
 			programSelect.children().children('select').attr('name', 'channel[programs][]')
 
-			$(this).parent().parent().append(programSelect);
+			$('.programSelect-Container').append(programSelect);
 		});
 
-		$('.remove-program').on("click", function(e) {
+		$('.channel-form-container').on("click", ".remove-program", function(e) {
 			e.preventDefault();
 
-			console.log('remove');
+			$(this).parent().parent().remove();
 		});
 	}
 
