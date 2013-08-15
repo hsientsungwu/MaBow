@@ -38,7 +38,7 @@ if ($_POST['category']) {
 
 	$editCategory = $db->fetchRow("SELECT * FROM Category WHERE id = ?", array($_GET['id']));
 } elseif ($_GET['delete']) {
-	$_GET['delte'] = clean_input($_GET['delete']);
+	$_GET['delete'] = clean_input($_GET['delete']);
 
 	$affected = $db->delete("Category", "id = ?", array($_GET['delete']));
 

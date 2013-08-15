@@ -34,6 +34,8 @@ if ($_POST['action'] == 'channel') {
 		    		$channelId = $affected;
 		    		$success[] = "頻道已新增";
 		    	}
+		    } else {
+		    	$errors[] = "無法找到 YouTube 頻道";
 		    }
 		} catch (Google_ServiceException $e) {
 			$htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
@@ -45,13 +47,15 @@ if ($_POST['action'] == 'channel') {
 	if ($channelId) {
 		$affected = $db->delete("Programs_Channel", "channel = ?", array($channelId));
 
-		foreach ($channelPostData['programs'] as $programId) {
-			$newProgramsChannel = array(
-				'channel' => $channelId,
-				'program' => $programId,
-			);
+		if (count($channelPostData['programs'])) {
+			foreach ($channelPostData['programs'] as $programId) {
+				$newProgramsChannel = array(
+					'channel' => $channelId,
+					'program' => $programId,
+				);
 
-			$affected = $db->insert($newProgramsChannel, 'Programs_Channel');
+				$affected = $db->insert($newProgramsChannel, 'Programs_Channel');
+			}
 		}
 	}
 } elseif ($_POST['action'] == 'status') {
@@ -65,8 +69,14 @@ if ($_POST['action'] == 'channel') {
 
 	die('failure');
 
+} elseif ($_GET['delete']) {
+	$_GET['delete'] = clean_input($_GET['delete']);
+
+	$affected = $db->delete("Channel", "id = ?", array($_GET['delete']));
+
+	if ($affected) $success[] = "頻道已移除";
 } elseif ($_GET['id']) {
-	$channel = $db->fetchRow("SELECT * FROM Channel WHERE id = ?", array($_GET['id']));
+	$editChannel = $db->fetchRow("SELECT * FROM Channel WHERE id = ?", array($_GET['id']));
 }
 
 $channels = $db->fetchRows("SELECT * FROM Channel ORDER BY id DESC");
@@ -89,6 +99,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		  	<tbody>
 		  		<?php
 		  			foreach ($channels as $data) {
+		  				$programCount = $db->fetchCell("SELECT COUNT(id) FROM Programs_Channel WHERE channel = ? GROUP BY id", array($data['id']));
+
 		  				echo "<tr>";
 		  				?>
 		  				<td>
@@ -105,7 +117,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		  				<?php
 		  				echo "<td>" . $data['id'] . "</td>";
 		  				echo "<td>" . $data['channel_name'] . "</td>";
-		  				echo "<td>0</td>";
+		  				echo "<td>" . ($programCount ? $programCount : '0') . "</td>";
 		  				echo "<td>
 		  						<a href='channel.php?id=" . $data['id'] . "'>修改</a> | 
 		  						<a href='channel.php?delete=" . $data['id'] . "'>移除</a>
@@ -136,7 +148,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				      <div class="large-12 columns">
 		    	<?php 
 		    	if ($_GET['id']) {
-		    		echo '<h3>' . $channel['channel_name'] . '</h3>';
+		    		echo '<h3>' . $editChannel['channel_name'] . '</h3>';
 		    	} else {
 		    		echo '<input type="text" name="channel[channel_id]" placeholder="頻道ID">';
 		    	}
@@ -149,6 +161,26 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				    	<button class="small button add-program">新增節目</button>
 				     </div>
 			    </div>
+
+			    <?php
+			    if ($_GET['id']) {
+			    	$programsChannel = $db->fetchRows("SELECT program FROM Programs_Channel WHERE channel = ?", array($editChannel['id']));
+
+			    	if (count($programsChannel)) {
+			    		foreach ($programsChannel as $program_channel) {
+			    			?>
+			    				<div class="row programSelect-existed">
+				    				<div class="large-12 columns">
+			    			<?php
+			    				$programInfo = $db->fetchRow("SELECT id, name FROM Program WHERE id = ?", array($program_channel['program']));
+
+			    				echo '<h4>' . $programInfo['name'] . '</h4><button class="tiny button remove-program">移除節目</button></div></div>';
+			    		}
+			    	}
+			    }
+
+
+			    ?>
 
 			    <div class="programSelect-Container">
 			    	<div class="row programSelect-Template">

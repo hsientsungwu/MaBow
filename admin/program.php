@@ -19,9 +19,15 @@ if ($_POST['program']) {
 			'time_type' => $program['time_type'],
 		);
 
-		$newProgramId = $db->insert($newProgram, 'Program');
+		if (!$program['id']) {
+			$newProgramId = $db->insert($newProgram, 'Program');
 
-		if ($newCategoryId) $success[] = 'New program added';
+			if ($newProgramId) $success[] = '節目已新增';
+		} else {
+			$newProgramId = $db->update($newProgram, 'Program', 'id = ?', array($program['id']));
+
+			if ($newProgramId) $success[] = '節目已更新';
+		}
 	}
 } elseif ($_POST['sort'] && $_POST['type']) {
 	$programSort = clean_input($_POST['sort']);
@@ -38,6 +44,10 @@ if ($_POST['program']) {
 	$affected = $db->delete("Program", "id = ?", array($deleteId));
 
 	if ($affected) $success[] = "節目已移除";
+} elseif ($_GET['id']) {
+	$_GET['id'] = clean_input($_GET['id']);
+
+	$editProgram = $db->fetchRow("SELECT * FROM Program WHERE id = ?", array($_GET['id']));
 }
 
 $categories = $db->fetchRows("SELECT id, name FROM Category ORDER BY weight ASC");
@@ -96,22 +106,35 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				      	<select name="program[category]" class="medium">
 				      		<?php
 				      			foreach ($categories as $category) {
-				      				echo '<option value="' . $category['id'] . '">' . $category['name'] . '</option>';
+				      				$selected = '';
+				      				
+				      				if ($_GET['id']) {
+				      					if ($category['id'] == $editProgram['category']) {
+				      						$selected = 'selected';
+				      					}
+				      				}
+				      				echo '<option value="' . $category['id'] . '" ' . $selected . '>' . $category['name'] . '</option>';
 				      			}
 				      		?>
 				      	</select>
 				    </div>
 				</div>
 
+				<?php 
+		    		if ($_GET['id']) {
+		    			echo '<input type="hidden" name="program[id]" value="' . $_GET['id'] . '">';
+		    		}
+		    	?>	
+
 			    <div class="row">
 			      <div class="large-12 columns">
-			        <input type="text" name="program[name]" placeholder="節目名稱">
+			        <input type="text" name="program[name]" placeholder="節目名稱" value="<?php if ($_GET['id']) echo $editProgram['name']; ?>">
 			      </div>
 			    </div>
 			    
 			    <div class="row">
 			      	<div class="large-12 columns">
-			        	<textarea name="program[description]" placeholder="節目描述"></textarea>
+			        	<textarea name="program[description]" placeholder="節目描述"><?php if ($_GET['id']) echo $editProgram['description']; ?></textarea>
 			      	</div>
 			    </div>
 			    
