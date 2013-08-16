@@ -12,6 +12,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/Google_Client.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/contrib/Google_YouTubeService.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/enum.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/common.func.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/support/error.handler.php';
 
 function __autoload($className) {
 	$configRoot = $_SERVER['DOCUMENT_ROOT'] . '/config/';
@@ -50,3 +51,7 @@ $fb = new Facebook(
 
 // set default time zone
 date_default_timezone_set('America/New_York');
+
+// set error/exception handlers
+set_error_handler('errorHandler');
+set_exception_handler('exceptionHandler');

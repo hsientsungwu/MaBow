@@ -4,9 +4,17 @@ if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 $channels = $db->fetchRows("SELECT id, channel_name FROM Channel ORDER BY id ASC");
+$sc_channels = array(9, 6, 5);
 
 if (count($channels)) {
 	foreach ($channels as $channel) {
+
+		if (in_array($channel['id'], $sc_channels)) {
+			$titleTranslation = true;
+		} else {
+			$titleTranslation = false;
+		}
+
 		print_r("<h3>{$channel['channel_name']}</h3>");
 
 		$videos = getVideosForChannel($channel['id']);
@@ -14,7 +22,15 @@ if (count($channels)) {
 
 		foreach ($videos as $video) {
 			foreach ($programs as $program) {
+				if ($titleTranslation) {
+					$video['snippet']['title'] = translateIntoTraditionalChinese($video['snippet']['title']);
+				}
+
 				print_r("{$video['snippet']['title']} - {$video['contentDetails']['videoId']} - ");
+
+				$date = getDateFromVideoTitle($video['snippet']['title']);
+
+				if ($date) print_r("{$date} - ");
 
 				if (strstr($video['snippet']['title'], $program['name'])) {
 					if (!isVideoStored($video['contentDetails']['videoId'])) {
@@ -29,6 +45,8 @@ if (count($channels)) {
 						);
 
 						$db->insert($newVideo, 'Video');
+
+						print_r("stored in database ");
 					}
 				}
 
@@ -36,6 +54,26 @@ if (count($channels)) {
 			}
 		}
 	}
+}
+
+function translateIntoTraditionalChinese($str) {
+	$translated_string = iconv("BIG5","UTF-8",iconv("gb2312","BIG5",iconv("UTF-8","gb2312", $str)));
+
+	return $translated_string;
+}
+
+function getDateFromVideoTitle($video_title) {
+	$match = array();
+
+	preg_match("/\d{4}[-.]?\d{2}[-.]?\d{2}/", $video_title, $match);
+
+	if (count($match)) {
+		$match[0] = str_replace('.', '-', $match[0]);
+
+		return date('Y-m-d', strtotime($match[0]));
+	}
+
+	return false;
 }
 
 function isVideoStored($video_id) {
