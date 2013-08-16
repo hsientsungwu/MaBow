@@ -4,7 +4,7 @@ if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 $channels = $db->fetchRows("SELECT id, channel_name FROM Channel ORDER BY id ASC");
-$sc_channels = array(9, 6, 5);
+$sc_channels = array(9, 6, 5, 10);
 
 if (count($channels)) {
 	foreach ($channels as $channel) {
