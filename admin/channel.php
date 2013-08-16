@@ -99,7 +99,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		  	<tbody>
 		  		<?php
 		  			foreach ($channels as $data) {
-		  				$programCount = $db->fetchCell("SELECT COUNT(id) FROM Programs_Channel WHERE channel = ? GROUP BY id", array($data['id']));
+		  				$programCount = $db->fetchCell("SELECT COUNT(id) FROM Programs_Channel WHERE channel = ? GROUP BY channel", array($data['id']));
 
 		  				echo "<tr>";
 		  				?>
@@ -173,7 +173,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				    				<div class="large-12 columns">
 			    			<?php
 			    				$programInfo = $db->fetchRow("SELECT id, name FROM Program WHERE id = ?", array($program_channel['program']));
-
+			    				echo '<input type="hidden" name="channel[programs][]" value="' . $programInfo['id'] . '">';
 			    				echo '<h4>' . $programInfo['name'] . '</h4><button class="tiny button remove-program">移除節目</button></div></div>';
 			    		}
 			    	}
