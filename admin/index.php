@@ -1,4 +1,5 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 ?>
