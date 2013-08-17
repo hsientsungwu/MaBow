@@ -1,10 +1,10 @@
 <?php
-if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/latteblog/tools/mabow/htdoc/';
+if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/latteblog/tools/mabow/htdocs';
 
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-$channels = $db->fetchRows("SELECT id, channel_name FROM Channel ORDER BY id ASC");
-$sc_channels = array(9, 6, 5, 10);
+$channels = $db->fetchRows("SELECT id, channel_name FROM Channel WHERE status = ? ORDER BY id ASC", array(Status::ACTIVE));
+$sc_channels = $db->fetchColumn("SELECT id, id FROM Channel WHERE isTC = 0");
 
 if (count($channels)) {
 	foreach ($channels as $channel) {
@@ -17,43 +17,63 @@ if (count($channels)) {
 
 		print_r("<h3>{$channel['channel_name']}</h3>");
 
-		$videos = getVideosForChannel($channel['id']);
+		$videos = getVideosForChannel($channel['id'], 3);
 		$programs = getProgramsForChannel($channel['id']);
 
 		foreach ($videos as $video) {
+			print_r("{$video['snippet']['title']} - ");
+
 			foreach ($programs as $program) {
+
 				if ($titleTranslation) {
-					$video['snippet']['title'] = translateIntoTraditionalChinese($video['snippet']['title']);
+					$video_title = translateIntoTraditionalChinese($video['snippet']['title']);
+					$video_description = translateIntoTraditionalChinese($video['snippet']['description']);
+				} else {
+					$video_title = $video['snippet']['title'];
+					$video_description = $video['snippet']['description'];
 				}
 
-				print_r("{$video['snippet']['title']} - {$video['contentDetails']['videoId']} - ");
-
-				$date = getDateFromVideoTitle($video['snippet']['title']);
-
-				if ($date) print_r("{$date} - ");
-
-				if (strstr($video['snippet']['title'], $program['name'])) {
+				if (strstr($video_title, $program['name'])) {
 					if (!isVideoStored($video['contentDetails']['videoId'])) {
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
 							'date' => $video['snippet']['publishedAt'],
-							'name' => $video['snippet']['title'],
-							'description' => $video['snippet']['description'],
+							'name' => renameVideoTitle($video_title, $program['name']),
+							'description' => $video_description,
 							'program' => $program['id'],
 							'channel' => $channel['id'],
 							'status' => Status::ACTIVE,
 						);
 
+						print_r("{$newVideo['name']} - stored");
 						$db->insert($newVideo, 'Video');
-
-						print_r("stored in database ");
 					}
 				}
-
-				print_r("<br>");
 			}
+			print_r("<br>");
 		}
 	}
+}
+
+function renameVideoTitle($video_title, $program_title) {
+	$match = array();
+
+	preg_match("/\d{4}[-.]?\d{2}[-.]?\d{2}/", $video_title, $match);
+
+	if (count($match)) {
+		$title = str_replace($match[0], '', $video_title);
+
+		$match[0] = str_replace('.', '-', $match[0]);
+		$date = date('Y-m-d', strtotime($match[0]));
+
+		$title = str_replace($program_title, '', $title);
+
+		$title = $program_title . ' ' . $date . ' ' . trim($title);
+
+		return $title;
+	}
+
+	return $video_title;
 }
 
 function translateIntoTraditionalChinese($str) {
@@ -68,9 +88,11 @@ function getDateFromVideoTitle($video_title) {
 	preg_match("/\d{4}[-.]?\d{2}[-.]?\d{2}/", $video_title, $match);
 
 	if (count($match)) {
+		$original = $match[0];
+
 		$match[0] = str_replace('.', '-', $match[0]);
 
-		return date('Y-m-d', strtotime($match[0]));
+		return array('updated' => date('Y-m-d', strtotime($match[0])), 'original' => $original);
 	}
 
 	return false;
@@ -98,7 +120,7 @@ function getProgramsForChannel($channel_id) {
 	return $programData;
 }
 
-function getVideosForChannel($channel_id) {
+function getVideosForChannel($channel_id, $level = 1) {
 	global $db, $MABOW_GOOGLEDEVELOPER_KEY;
 
 	$GoogleClient = new Google_Client();
@@ -112,17 +134,28 @@ function getVideosForChannel($channel_id) {
         'maxResults' => 50
 	);
 
+	$currentLevel = 1;
+	$videos = array();
+
 	try {
 	    $playlistItemsResponse = $YouTube->playlistItems->listPlaylistItems($apiContent, $apiParams);
+
+	    $videos = $playlistItemsResponse['items'];
+
+	    while ($level > $currentLevel && $playlistItemsResponse['nextPageToken'] != '') {
+	    	$apiParams['pageToken'] = $playlistItemsResponse['nextPageToken'];
+
+	    	$playlistItemsResponse = $YouTube->playlistItems->listPlaylistItems($apiContent, $apiParams);
+
+	    	$videos = array_merge($videos, $playlistItemsResponse['items']);
+
+	    	$currentLevel++;
+	    }
 	} catch (Google_ServiceException $e) {
 		$htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
 	} catch (Google_Exception $e) {
 		$htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
 	}
 
-	if (count($playlistItemsResponse['items'])) {
-		return $playlistItemsResponse['items'];
-	}
-
-	return array();
+	return $videos;
 }

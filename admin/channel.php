@@ -6,6 +6,12 @@ if ($_POST['action'] == 'channel') {
 
 	if ($channelPostData['id']) {
 		$channelId = $channelPostData['id'];
+
+		$editedChannelData = array(
+			'isTC' => (isset($channelPostData['isTC']) ? '1' : '0')
+		);
+		
+		$db->update($editedChannelData, 'Channel', 'id = ?', array($channelPostData['id']));
 	} else {
 		$GoogleClient = new Google_Client();
 		$GoogleClient->setDeveloperKey($MABOW_GOOGLEDEVELOPER_KEY);
@@ -91,9 +97,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 			    <tr>
 			    	<th width="75">狀態</th>
 			    	<th width="75">ID</th>
-			      	<th width="350">頻道名稱</th>
-			      	<th width="350">節目數量</th>
-			      	<th width="150"></th>
+			      	<th width="325">頻道名稱</th>
+			      	<th width="325">節目數量</th>
+			      	<th width="100">中文</th>
+			      	<th width="100"></th>
 			    </tr>
 		  	</thead>
 		  	<tbody>
@@ -105,11 +112,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		  				?>
 		  				<td>
 		  					<div class="status-switch switch tiny round" data-channelid="<?php echo $data['id']; ?>">
-							  	<input id="z" class="status" name="channel[status]" data-status="<?php echo Status::INACTIVE; ?>" type="radio" <?php if ($data['status'] == Status::INACTIVE) echo 'checked'; ?>>
-							  	<label for="z" onclick="">Off</label>
+							  	<input id="channel-switch-<?php echo $data['id']; ?>" class="status" name="channel-switch-<?php echo $data['id']; ?>" data-status="<?php echo Status::INACTIVE; ?>" type="radio" <?php if ($data['status'] == Status::INACTIVE) echo 'checked'; ?>>
+							  	<label for="channel-switch-<?php echo $data['id']; ?>" onclick="">Off</label>
 
-							  	<input id="z1" class="status" name="channel[status]" data-status="<?php echo Status::ACTIVE; ?>"type="radio" <?php if ($data['status'] == Status::ACTIVE) echo 'checked'; ?>>
-							  	<label for="z1" onclick="">On</label>
+							  	<input id="channel-switch-<?php echo $data['id']; ?>o" class="status" name="channel-switch-<?php echo $data['id']; ?>" data-status="<?php echo Status::ACTIVE; ?>"type="radio" <?php if ($data['status'] == Status::ACTIVE) echo 'checked'; ?>>
+							  	<label for="channel-switch-<?php echo $data['id']; ?>o" onclick="">On</label>
 
 	  							<span></span>
 							</div>
@@ -118,6 +125,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		  				echo "<td>" . $data['id'] . "</td>";
 		  				echo "<td>" . $data['channel_name'] . "</td>";
 		  				echo "<td>" . ($programCount ? $programCount : '0') . "</td>";
+		  				echo "<td>" . ($data['isTC'] ? '繁體中文' : '簡體中文') . "</td>";
 		  				echo "<td>
 		  						<a href='channel.php?id=" . $data['id'] . "'>修改</a> | 
 		  						<a href='channel.php?delete=" . $data['id'] . "'>移除</a>
@@ -138,7 +146,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 
 		    	<?php
 		    	if ($_GET['id']) {
-		    		echo '<input type="hidden" name="channel[id]" value=' . $_GET['id'] . "/>";
+		    		echo '<input type="hidden" name="channel[id]" value="' . $_GET['id'] . '">';
 		    	}
 		    	?>
 		    	
@@ -154,6 +162,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 		    	}
 				?>  
 					</div>
+			    </div>
+
+			    <div class="row">
+				    <div class="large-12 columns">
+				    	<label for="checkbox1"><input type="checkbox" name="channel[isTC]" id="checkbox1" <?php if ($_GET['id'] && $editChannel['isTC'] == 1) echo 'checked'; ?>><span class="custom checkbox"></span>繁體中文</label>
+				     </div>
 			    </div>
 
 			    <div class="row">

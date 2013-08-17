@@ -107,7 +107,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				      		<?php
 				      			foreach ($categories as $category) {
 				      				$selected = '';
-				      				
+
 				      				if ($_GET['id']) {
 				      					if ($category['id'] == $editProgram['category']) {
 				      						$selected = 'selected';
@@ -149,6 +149,29 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 				      	</select>
 				    </div>
 				</div>
+
+				<?php
+				if ($_GET['id']) {
+					$programChannels = $db->fetchRows("SELECT channel FROM Programs_Channel WHERE program = ?", array($_GET['id']));
+
+					if (count($programChannels)) {
+						?>
+						<div class="row">
+				    		<div class="large-12 columns">
+				    			<h4>Source:</h4>
+				    			<ul>
+						<?php
+
+						foreach ($programChannels as $programChannel) {
+							$channelName = $db->fetchCell("SELECT channel_name FROM Channel WHERE id = ?", array($programChannel['channel']));
+
+							echo '<li>' . $channelName . '</li>';
+						}
+
+						echo '</ul></div></div>';
+					}
+				}
+				?>
 
 
 			    <div class="row">

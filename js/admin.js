@@ -55,11 +55,10 @@ $(document).ready( function() {
 	// status ajax
 	if ($('.status-switch').length > 0) {
 		$('.status-switch').change(function(e) {
-
 			var postData = {
 				action : 'status',
 				channel : $(this).data('channelid'),
-				status : $('.status:checked').data('status')
+				status : $(this).find('.status:checked').data('status')
 			}
 
 			var ajaxUrl = window.location.pathname;
