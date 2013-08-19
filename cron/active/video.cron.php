@@ -3,13 +3,14 @@ if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/
 
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-$channels = $db->fetchRows("SELECT id, channel_name FROM Channel WHERE status = ? ORDER BY id ASC", array(Status::ACTIVE));
-$sc_channels = $db->fetchColumn("SELECT id, id FROM Channel WHERE isTC = 0");
+$channels = $db->fetchRows("SELECT id, channel_name, isTC FROM Channel WHERE status = ? ORDER BY id ASC", array(Status::ACTIVE));
+
+$cron_reports = array();
 
 if (count($channels)) {
 	foreach ($channels as $channel) {
 
-		if (in_array($channel['id'], $sc_channels)) {
+		if ($channel['isTC'] == false) {
 			$titleTranslation = true;
 		} else {
 			$titleTranslation = false;
@@ -24,6 +25,10 @@ if (count($channels)) {
 			print_r("{$video['snippet']['title']} - ");
 
 			foreach ($programs as $program) {
+				
+				if (!isset($cron_reports[$program['name']])) {
+					$cron_reports[$program['name']] = 0;
+				}
 
 				if ($titleTranslation) {
 					$video_title = translateIntoTraditionalChinese($video['snippet']['title']);
@@ -47,6 +52,8 @@ if (count($channels)) {
 
 						print_r("{$newVideo['name']} - stored");
 						$db->insert($newVideo, 'Video');
+
+						$cron_reports[$program['name']]++;
 					}
 				}
 			}
@@ -54,6 +61,10 @@ if (count($channels)) {
 		}
 	}
 }
+
+logThis(array('source' => 'YouTube Hourly Cron', 'message' => $cron_reports), LogType::CRON);
+
+print_r($cron_reports);
 
 function renameVideoTitle($video_title, $program_title) {
 	$match = array();
@@ -152,9 +163,11 @@ function getVideosForChannel($channel_id, $level = 1) {
 	    	$currentLevel++;
 	    }
 	} catch (Google_ServiceException $e) {
-		$htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+		$exceptionError = sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+		logThis(array('source' => 'YouTube API', 'message' => $exceptionError), LogType::ERROR);
 	} catch (Google_Exception $e) {
-		$htmlBody .= sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+		$exceptionError = sprintf('<p>A service error occurred: <code>%s</code></p>', htmlspecialchars($e->getMessage()));
+		logThis(array('source' => 'YouTube API', 'message' => $exceptionError), LogType::ERROR);
 	}
 
 	return $videos;

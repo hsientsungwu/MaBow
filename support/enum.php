@@ -19,3 +19,19 @@ class Status {
 	const INACTIVE = 2;
 	const DELETED = 0;
 }
+
+class LogType {
+	const ERROR = 1;
+	const CRON = 2;
+
+	static function getLogTypeText($type) {
+		switch ($type) {
+			case self::ERROR :
+				return 'Error';
+			case self::CRON :
+				return 'Cron';
+		}
+
+		return false;
+	}
+}

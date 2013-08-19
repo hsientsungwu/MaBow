@@ -13,6 +13,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/contrib/Google_YouTube
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/enum.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/common.func.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/error.handler.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/support/log.func.php';
 
 function __autoload($className) {
 	$configRoot = $_SERVER['DOCUMENT_ROOT'] . '/config/';
