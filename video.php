@@ -8,13 +8,19 @@ if ($_GET['id']) {
   $program = $videoInfo['program'];
   $category = $_GET['category'];
   $backurl = 'program.php?id=' . $program . '&category=' . $category;
+
+  $newView = array(
+    'view' => $videoInfo['view']+1
+  );
+
+  $db->update($newView, 'Video', 'id = ?', array($videoInfo['id']));
 }
 
 ?>
 
 <html>
   <head>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $videoInfo['name']; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
