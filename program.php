@@ -30,5 +30,5 @@ if ($_GET['id']) {
         }
         ?>
     </ul>
-  </body>
-</html>
+  
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>

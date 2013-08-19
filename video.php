@@ -35,5 +35,5 @@ if ($_GET['id']) {
     <div>
       <iframe width="420" height="345"src="http://www.youtube.com/embed/<?php echo $videoId; ?>"></iframe>
     </div>
-  </body>
-</html>
+
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>

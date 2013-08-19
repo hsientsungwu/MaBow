@@ -24,5 +24,5 @@ require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
         }
         ?>
     </ul>
-  </body>
-</html>
+
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>
