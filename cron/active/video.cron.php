@@ -6,6 +6,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 $channels = $db->fetchRows("SELECT id, channel_name, isTC FROM Channel WHERE status = ? ORDER BY id ASC", array(Status::ACTIVE));
 
 $cron_reports = array();
+$video_stored_count = 0;
 
 if (count($channels)) {
 	foreach ($channels as $channel) {
@@ -32,19 +33,18 @@ if (count($channels)) {
 
 				if ($titleTranslation) {
 					$video_title = translateIntoTraditionalChinese($video['snippet']['title']);
-					$video_description = translateIntoTraditionalChinese($video['snippet']['description']);
 				} else {
 					$video_title = $video['snippet']['title'];
-					$video_description = $video['snippet']['description'];
 				}
 
 				if (strstr($video_title, $program['name'])) {
 					if (!isVideoStored($video['contentDetails']['videoId'])) {
+
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
 							'date' => $video['snippet']['publishedAt'],
 							'name' => renameVideoTitle($video_title, $program['name']),
-							'description' => $video_description,
+							'description' => ($titleTranslation ? translateIntoTraditionalChinese($video['snippet']['description']) : $video['snippet']['description']),
 							'program' => $program['id'],
 							'channel' => $channel['id'],
 							'status' => Status::ACTIVE,
@@ -52,6 +52,7 @@ if (count($channels)) {
 
 						print_r("{$newVideo['name']} - stored");
 						$db->insert($newVideo, 'Video');
+						$video_stored_count++;
 
 						$cron_reports[$program['name']]++;
 					}
@@ -62,7 +63,7 @@ if (count($channels)) {
 	}
 }
 
-logThis(array('source' => 'YouTube Hourly Cron', 'message' => $cron_reports), LogType::CRON);
+logThis(array('source' => 'YouTube Hourly Cron - ' . $video_stored_count . ' videos', 'message' => $cron_reports), LogType::CRON);
 
 print_r($cron_reports);
 
