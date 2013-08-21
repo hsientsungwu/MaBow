@@ -18,7 +18,7 @@ function clean_input($var) {
 function send_email($content) {	
 	global $ADMIN_EMAIL, $SYSTEM_EMAIL;
 	// subject
-	$subject = $content['subject'];
+	$subject = '[MABOW] ' . $content['subject'];
 	$body = $content['body'];
 
 	// message
@@ -38,9 +38,9 @@ function send_email($content) {
 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
 	// Additional headers
-	$headers .= 'To: Steve Wu<' . $ADMIN_EMAIL . '>' . "\r\n";
-	$headers .= 'From: Mabow System Message<' . $SYSTEM_EMAIL . '>' . "\r\n";
-var_dump($headers);
+	$headers .= 'To: HTWU Webmaster<' . $ADMIN_EMAIL . '>' . "\r\n";
+	$headers .= 'From: HTWU No-Reply Message<' . $SYSTEM_EMAIL . '>' . "\r\n";
+
 	// Mail it
 	mail($to, $subject, $message, $headers);
 }
