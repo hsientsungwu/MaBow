@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/latteblog/tools/mabow/htdocs';
+if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/htwu/mabow/htdocs';
 
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
