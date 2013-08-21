@@ -1,5 +1,9 @@
 <?php
+$beginTime = time();
+
 if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/htwu/mabow/htdocs';
+
+$debug = ($_GET['debug'] ? true : false);
 
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
@@ -11,19 +15,21 @@ $video_stored_count = 0;
 if (count($channels)) {
 	foreach ($channels as $channel) {
 
-		if ($channel['isTC'] == false) {
+		if ($channel['isTC'] == '0') {
 			$titleTranslation = true;
 		} else {
 			$titleTranslation = false;
 		}
 
-		print_r("<h3>{$channel['channel_name']}</h3>");
+		print_r("Running <b>{$channel['channel_name']}</b>");
+
+		if ($debug) print_r("<br>");
 
 		$videos = getVideosForChannel($channel['id'], 3);
 		$programs = getProgramsForChannel($channel['id']);
 
 		foreach ($videos as $video) {
-			print_r("{$video['snippet']['title']} - ");
+			if ($debug) print_r("{$video['snippet']['title']} - ");
 
 			foreach ($programs as $program) {
 				
@@ -38,7 +44,7 @@ if (count($channels)) {
 				}
 
 				if (strstr($video_title, $program['name'])) {
-					if (!isVideoStored($video['contentDetails']['videoId'])) {
+					if (!isVideoStored($video['contentDetails']['videoId'], $program['name'], $video_title)) {
 
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
@@ -50,7 +56,7 @@ if (count($channels)) {
 							'status' => Status::ACTIVE,
 						);
 
-						print_r("{$newVideo['name']} - stored");
+						if ($debug) print_r("{$newVideo['name']} - stored");
 						$db->insert($newVideo, 'Video');
 						$video_stored_count++;
 
@@ -58,13 +64,22 @@ if (count($channels)) {
 					}
 				}
 			}
-			print_r("<br>");
+
+
+			if ($debug) print_r("<br>");
 		}
+
+		if (!$debug) print_r(" ... DONE<br>");
 	}
 }
 
 logThis(array('source' => 'YouTube Hourly Cron - ' . $video_stored_count . ' videos', 'message' => $cron_reports), LogType::CRON);
 
+$endTime = time();
+
+$timeUsed = $endTime - $beginTime;
+
+print_r("Total time spent: {$timeUsed}s <br>");
 print_r($cron_reports);
 
 function renameVideoTitle($video_title, $program_title) {
@@ -110,10 +125,16 @@ function getDateFromVideoTitle($video_title) {
 	return false;
 }
 
-function isVideoStored($video_id) {
+function isVideoStored($video_id, $program, $video) {
 	global $db;
 
+	$date = getDateFromVideoTitle($video);
+
 	$isExisted = $db->fetchRow("SELECT * FROM Video WHERE video_id = ?", array($video_id));
+
+	if (!$isExisted && isset($date['updated'])) {
+		$isExisted = $db->fetchRow("SELECT * FROM `Video` WHERE name LIKE '%" . $program . " " . $date['updated'] . "%'");
+	}
 
 	return ($isExisted ? true : false);
 }

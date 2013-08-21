@@ -42,5 +42,5 @@ function send_email($content) {
 	$headers .= 'From: HTWU No-Reply Message<' . $SYSTEM_EMAIL . '>' . "\r\n";
 
 	// Mail it
-	mail($to, $subject, $message, $headers);
+	$result = mail($to, $subject, $message, $headers);
 }
