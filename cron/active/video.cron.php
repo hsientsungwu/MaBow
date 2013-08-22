@@ -83,19 +83,17 @@ print_r("Total time spent: {$timeUsed}s <br>");
 print_r($cron_reports);
 
 function renameVideoTitle($video_title, $program_title) {
-	$match = array();
-
 	preg_match("/\d{4}[-.]?\d{2}[-.]?\d{2}/", $video_title, $match);
 
-	if (count($match)) {
+	$date = getDateFromVideoTitle($video_title);
+
+	if (isset($date['updated']) && count($match)) {
 		$title = str_replace($match[0], '', $video_title);
 
 		$match[0] = str_replace('.', '-', $match[0]);
-		$match[0] = date('Y-m-d', strtotime($match[0]));
-		$date = date('Y-m-d', strtotime($match[0]));
 
 		$title = str_replace($program_title, '', $title);
-		$title = $program_title . ' ' . $date . ' ' . trim($title);
+		$title = $program_title . ' ' . $date['updated'] . ' ' . trim($title);
 
 		return $title;
 	}
@@ -118,8 +116,6 @@ function getDateFromVideoTitle($video_title) {
 		$original = $match[0];
 
 		$match[0] = str_replace('.', '-', $match[0]);
-
-		$match[0] = date('Y-m-d', $match[0]);
 
 		return array('updated' => date('Y-m-d', strtotime($match[0])), 'original' => $original);
 	}
