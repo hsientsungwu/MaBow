@@ -45,7 +45,6 @@ if (count($channels)) {
 
 				if (strstr($video_title, $program['name'])) {
 					if (!isVideoStored($video['contentDetails']['videoId'], $program['name'], $video_title)) {
-
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
 							'date' => $video['snippet']['publishedAt'],
@@ -57,14 +56,14 @@ if (count($channels)) {
 						);
 
 						if ($debug) print_r("{$newVideo['name']} - stored");
-						$db->insert($newVideo, 'Video');
-						$video_stored_count++;
 
+						$db->insert($newVideo, 'Video');
+
+						$video_stored_count++;
 						$cron_reports[$program['name']]++;
 					}
 				}
 			}
-
 
 			if ($debug) print_r("<br>");
 		}

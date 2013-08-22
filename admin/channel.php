@@ -8,9 +8,9 @@ if ($_POST['action'] == 'channel') {
 		$channelId = $channelPostData['id'];
 
 		$editedChannelData = array(
-			'isTC' => (isset($channelPostData['isTC']) ? '1' : '0')
+			'isTC' => ($channelPostData['isTC'] ? '1' : '0')
 		);
-		
+
 		$db->update($editedChannelData, 'Channel', 'id = ?', array($channelPostData['id']));
 	} else {
 		$GoogleClient = new Google_Client();
@@ -31,7 +31,8 @@ if ($_POST['action'] == 'channel') {
 		    		'channel_id' => $channelInfo['id'],
 		    		'channel_name' => $channelInfo['snippet']['title'],
 		    		'upload_list_id' => $channelInfo['contentDetails']['relatedPlaylists']['uploads'],
-		    		'status' => ($channelPostData['status'] == 'on' ? Status::ACTIVE : Status::INACTIVE)
+		    		'status' => ($channelPostData['status'] == 'on' ? Status::ACTIVE : Status::INACTIVE),
+		    		'isTC' => ($channelPostData['isTC'] ? '1' : '0')
 		    	);
 
 		    	$affected = $db->insert($newChannel, "Channel");
