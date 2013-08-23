@@ -20,13 +20,35 @@ if ($_GET['id']) {
 ?>
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/header.template.php'); ?>
-
-<div data-role="header">
-    <a href="<?php echo $backurl; ?>" data-icon="back" data-transition="slide" data-direction="reverse">上一頁</a>
-    <h1><?php echo $pageTitle; ?></h1>
-</div>
-<div>
-    <iframe width="420" height="345"src="http://www.youtube.com/embed/<?php echo $videoId; ?>"></iframe>
+<style>
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+<div class="cl-device-body">
+    <div class="cl-page">
+        <div class="cl-bar-title">
+            <a href="<?php echo $backurl; ?>" class="cl-btn" data-transition="slide-out">Back</a>
+            <h1 class="cl-title"><?php echo $pageTitle; ?></h1>
+        </div>
+        <div class="cl-content">
+            <div class="cl-article">
+                <p class="video-container"><iframe src="http://www.youtube.com/embed/<?php echo $videoId; ?>"></iframe></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>
