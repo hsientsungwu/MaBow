@@ -54,5 +54,5 @@ $fb = new Facebook(
 date_default_timezone_set('America/New_York');
 
 // set error/exception handlers
-set_error_handler('errorHandler');
-set_exception_handler('exceptionHandler');
+//set_error_handler('errorHandler');
+//set_exception_handler('exceptionHandler');
