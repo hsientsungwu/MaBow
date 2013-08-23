@@ -10,16 +10,23 @@ if ($_GET['id']) {
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/header.template.php'); ?>
 
-<div data-role="header">
-	<a href="index.php" data-icon="back" data-transition="slide" data-direction="reverse">上一頁</a>
-    <h1><?php echo $pageTitle; ?></h1>
+
+<div class="cl-device-body">
+    <div class="cl-page">
+        <div class="cl-bar-title">
+            <a href="/index.php" class="cl-btn" data-transition="slide-out">Back</a>
+            <h1 class="cl-title"><?php echo $pageTitle; ?></h1>
+        </div>
+        <div class="cl-content">
+            <div class="cl-table">
+                <?php
+                foreach ($programs as $program) {
+                  echo '<div class="cl-table-cell"><a href="program.php?id=' . $program['id'] . '&category=' . $_GET['id']. '" ><span class="label">' . $program['name'] . '</span></a></div>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
-<ul data-role="listview" data-inset="true">
-    <?php
-    foreach ($programs as $program) {
-      echo '<li><a href="program.php?id=' . $program['id'] . '&category=' . $_GET['id']. '" data-transition="slide" data-inline="true">' . $program['name'] . '</a></li>';
-    }
-    ?>
-</ul>
   
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>

@@ -2,17 +2,22 @@
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/header.template.php'); ?>
 
-<div data-role="header">
-    <h1>媽寶 - 線上影音</h1>
+<div class="cl-device-body">
+    <div class="cl-page">
+        <div class="cl-bar-title">
+            <h1 class="cl-title">媽寶 - 線上影音</h1>
+        </div>
+        <div class="cl-content">
+            <div class="cl-table">
+                <?php
+                $categories = $db->fetchRows("SELECT id, name FROM Category ORDER BY weight ASC");
+
+                foreach ($categories as $category) {
+                  echo '<div class="cl-table-cell"><a href="category.php?id=' . $category['id'] . '"><span class="label">' . $category['name'] . '</span</a></div>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
-<ul data-role="listview" data-inset="true">
-    <?php
-    $categories = $db->fetchRows("SELECT id, name FROM Category ORDER BY weight ASC");
-
-    foreach ($categories as $category) {
-      echo '<li><a href="category.php?id=' . $category['id'] . '" data-transition="slide" data-inline="true">' . $category['name'] . '</a></li>';
-    }
-    ?>
-</ul>
-
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>

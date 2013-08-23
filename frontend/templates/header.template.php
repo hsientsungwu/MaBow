@@ -1,7 +1,7 @@
 <html>
   <head>
     <title><?php echo ($pageTitle ? $pageTitle : '媽寶 - 線上影音'); ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -12,9 +12,17 @@
 	  ga('create', 'UA-43322426-3', 'htwu.net');
 	  ga('send', 'pageview');
 
-	</script>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	 </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" href="css/clank.css">
+    <script type="text/javascript" src="components/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="components/prefix-free/prefixfree.min.js"></script>
+
+    <script type="text/javascript" src="js/clank/ratchet/fingerblast.js"></script>
+    <script type="text/javascript" src="js/clank/ratchet/slider.js"></script>
+    <script type="text/javascript" src="js/clank/ratchet/toggles.js"></script>
+    <script type="text/javascript" src="js/clank/clank.js"></script>
   </head>
-  <body>
+  <body data-os="ios">
