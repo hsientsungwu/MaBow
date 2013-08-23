@@ -2,7 +2,7 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 if ($_POST['program']) {
-	$program = $_POST['program'];
+	$program = clean_input($_POST['program']);
 
 	if ($program['name'] == '' || $program['description'] == '') {
 		$errors[] = "Program name / descriptions cannot be empty";

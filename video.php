@@ -36,15 +36,19 @@ if ($_GET['id']) {
     width: 100%;
     height: 100%;
 }
+h3.video-title {
+    text-align: center !important;
+}
 </style>
 <div class="cl-device-body">
     <div class="cl-page">
         <div class="cl-bar-title">
             <a href="<?php echo $backurl; ?>" class="cl-btn" data-transition="slide-out">Back</a>
-            <h1 class="cl-title"><?php echo $pageTitle; ?></h1>
+            <h1 class="cl-title">節目</h1>
         </div>
         <div class="cl-content">
             <div class="cl-article">
+                <h3 class="video-title"><?php echo $pageTitle; ?></h3>
                 <p class="video-container"><iframe src="http://www.youtube.com/embed/<?php echo $videoId; ?>"></iframe></p>
             </div>
         </div>

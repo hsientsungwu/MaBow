@@ -31,6 +31,7 @@
 							<li><a href="/admin/category.php">種類</a></li>
 							<li><a href="/admin/program.php">節目</a></li>
 							<li><a href="/admin/channel.php">YouTube 頻道</a></li>
+							<li><a href="/admin/special.php">特別節目</a></li>
 							<li><a href="/admin/index.php">統計</a></li>
 						</ul>
 					</div>
