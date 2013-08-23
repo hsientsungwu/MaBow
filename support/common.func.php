@@ -44,3 +44,9 @@ function send_email($content) {
 	// Mail it
 	$result = mail($to, $subject, $message, $headers);
 }
+
+function translateIntoTraditionalChinese($str) {
+	$translated_string = iconv("BIG5","UTF-8",iconv("gb2312","BIG5",iconv("UTF-8","gb2312", $str)));
+
+	return $translated_string;
+}

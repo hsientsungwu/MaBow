@@ -12,7 +12,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/Google_Client.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/Google/contrib/Google_YouTubeService.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/enum.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/common.func.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/support/error.handler.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/support/youtube.func.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/log.func.php';
 
 function __autoload($className) {
