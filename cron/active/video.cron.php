@@ -4,6 +4,7 @@ $beginTime = time();
 if ($_SERVER['DOCUMENT_ROOT'] == "") $_SERVER['DOCUMENT_ROOT'] = '/home/hwu1986/public_html/htwu/mabow/htdocs';
 
 $debug = ($_GET['debug'] ? true : false);
+$testing = ($_GET['testing'] ? true : false);
 
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
@@ -45,7 +46,6 @@ if (count($channels)) {
 
 				if (strstr($video_title, $program['name'])) {
 					if (!isVideoStored($video['contentDetails']['videoId'], $program['name'], $video_title)) {
-
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
 							'date' => $video['snippet']['publishedAt'],
@@ -57,14 +57,14 @@ if (count($channels)) {
 						);
 
 						if ($debug) print_r("{$newVideo['name']} - stored");
-						$db->insert($newVideo, 'Video');
-						$video_stored_count++;
 
+						if (!$testing) $db->insert($newVideo, 'Video');
+
+						$video_stored_count++;
 						$cron_reports[$program['name']]++;
 					}
 				}
 			}
-
 
 			if ($debug) print_r("<br>");
 		}
@@ -83,19 +83,17 @@ print_r("Total time spent: {$timeUsed}s <br>");
 print_r($cron_reports);
 
 function renameVideoTitle($video_title, $program_title) {
-	$match = array();
-
 	preg_match("/\d{4}[-.]?\d{2}[-.]?\d{2}/", $video_title, $match);
 
-	if (count($match)) {
+	$date = getDateFromVideoTitle($video_title);
+
+	if (isset($date['updated']) && count($match)) {
 		$title = str_replace($match[0], '', $video_title);
 
 		$match[0] = str_replace('.', '-', $match[0]);
-		$date = date('Y-m-d', strtotime($match[0]));
 
 		$title = str_replace($program_title, '', $title);
-
-		$title = $program_title . ' ' . $date . ' ' . trim($title);
+		$title = $program_title . ' ' . $date['updated'] . ' ' . trim($title);
 
 		return $title;
 	}
