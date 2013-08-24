@@ -3,8 +3,16 @@
     <title><?php echo ($pageTitle ? $pageTitle : '媽寶 - 線上影音'); ?></title>
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/iphone-icon.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/apple-icon-57x57-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/apple-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-icon-144x144-precomposed.png" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta property="og:title" content="媽寶-線上影音"/>
+    <meta property="og:image" content="http://mabow.htwu.net/img/logoist_logo_nobkg.png" />
+    <meta property="og:url" content="http://mabow.htwu.net"/>
+    <meta property="og:site_name" content="媽寶-線上影音"/>
+    <meta property="og:description" content="媽寶 - 線上影音網站，年長的使用者不再需要煩惱如何線上觀看影片，不再把身邊的 3C 產品涼在旁邊，打開媽寶，開始您的縣上影音旅程！" />
     <script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
