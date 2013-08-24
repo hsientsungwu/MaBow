@@ -48,6 +48,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 	</div>
 </div>
 
+<div class="row">
+	<div class="large-12 large-centered columns">
+		<a class="button medium" target="_blank" href="/cron/active/video.cron.php">抓影片</a>
+	</div>
+</div>
+
 <?php
 $scripts = array(
   '<script src="/js/admin.js" ></script>',
