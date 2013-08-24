@@ -13,10 +13,12 @@ function renameVideoTitle($video_title, $program_title) {
 		$title = str_replace($program_title, '', $title);
 		$title = $program_title . ' ' . $date['updated'] . ' ' . trim($title);
 
-		return $title;
+		$title = str_replace(array('【', '】'), '' , $title);
+
+		return array('title' => $title, 'type' => VideoType::REGULAR, 'date' => $date['updated']);
 	}
 
-	return $video_title;
+	return array('title' => $video_title, 'type' => VideoType::ARCHIVED);
 }
 
 function getDateFromVideoTitle($video_title) {
@@ -50,7 +52,7 @@ function isVideoExistedWithDateValidation($video_id, $program, $video) {
 	$isExisted = $db->fetchRow("SELECT * FROM Video WHERE video_id = ?", array($video_id));
 
 	if (!$isExisted && isset($date['updated'])) {
-		$isExisted = $db->fetchRow("SELECT * FROM `Video` WHERE name LIKE '%" . $program . " " . $date['updated'] . "%'");
+		$isExisted = $db->fetchRow("SELECT * FROM `Video` WHERE title_date = ? AND program = ?", array($date['updated'], $program));
 	}
 
 	return ($isExisted ? true : false);

@@ -81,6 +81,10 @@ if ($_POST['action'] == 'channel') {
 
 	$affected = $db->delete("Channel", "id = ?", array($_GET['delete']));
 
+	if ($affected) {
+		$db->delete("Programs_Channel", "channel = ?", array($_GET['delete']));
+	}
+
 	if ($affected) $success[] = "頻道已移除";
 } elseif ($_GET['id']) {
 	$editChannel = $db->fetchRow("SELECT * FROM Channel WHERE id = ?", array($_GET['id']));

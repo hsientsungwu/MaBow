@@ -35,3 +35,9 @@ class LogType {
 		return false;
 	}
 }
+
+class VideoType {
+	const REGULAR = 1;
+	const ARCHIVED = 2;
+	const FAVORITE = 3;
+}

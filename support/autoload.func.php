@@ -14,6 +14,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/support/enum.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/common.func.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/youtube.func.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/support/log.func.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/support/stat.func.php';
 
 function __autoload($className) {
 	$configRoot = $_SERVER['DOCUMENT_ROOT'] . '/config/';

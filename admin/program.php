@@ -43,6 +43,11 @@ if ($_POST['program']) {
 
 	$affected = $db->delete("Program", "id = ?", array($deleteId));
 
+	if ($affected) {
+		$db->delete("Programs_Channel", "program = ?", array($deleteId));
+		$db->delete("Video", "program = ?", array($deleteId));
+	}
+
 	if ($affected) $success[] = "節目已移除";
 } elseif ($_GET['id']) {
 	$_GET['id'] = clean_input($_GET['id']);

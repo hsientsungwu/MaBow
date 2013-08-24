@@ -48,14 +48,18 @@ if (count($channels)) {
 				}
 
 				if (strstr($video_title, $program['name'])) {
-					if (!isVideoExistedWithDateValidation($video['contentDetails']['videoId'], $program['name'], $video_title)) {
+					if (!isVideoExistedWithDateValidation($video['contentDetails']['videoId'], $program['id'], $video_title)) {
+						$updatedVideoData = renameVideoTitle($video_title, $program['name']);
+
 						$newVideo = array(
 							'video_id' => $video['contentDetails']['videoId'],
 							'date' => $video['snippet']['publishedAt'],
-							'name' => renameVideoTitle($video_title, $program['name']),
+							'name' => $updatedVideoData['title'],
 							'description' => ($titleTranslation ? translateIntoTraditionalChinese($video['snippet']['description']) : $video['snippet']['description']),
+							'title_date' => ($updatedVideoData['type'] == VideoType::REGULAR ? $updatedVideoData['date'] : $video['snippet']['publishedAt']),
 							'program' => $program['id'],
 							'channel' => $channel['id'],
+							'type' => $updatedVideoData['type'],
 							'status' => Status::ACTIVE,
 						);
 
