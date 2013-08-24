@@ -35,6 +35,8 @@
     <script type="text/javascript" src="/js/clank/ratchet/sliders.js"></script>
     <script type="text/javascript" src="/js/clank/ratchet/toggles.js"></script>
     <script type="text/javascript" src="/js/clank/clank.js"></script>
+    <link rel="stylesheet" href="/css/add2home.css">
+    <script type="application/javascript" src="/js/add2home.js" charset="utf-8"></script>
+    
   </head>
   <body data-os="ios">
-    
