@@ -1,0 +1,64 @@
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.cl-btn {
+  @include button-skin($accent-color);
+  @include button-skin-hover($accent-color);
+
+  display: block;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  
+  /* Fixes when <button> is used */
+  border: none;
+  -webkit-appearance: none;
+
+  font-weight: 700;
+  
+  text-align: center;
+  font-size: 13px;
+  line-height: 32px;
+
+  [data-os="android"] & {
+    line-height: 40px;
+  }
+
+  /* Bar buttons */
+  .cl-bar-title &,
+  .cl-bar-footer &,
+  .cl-bar & {
+    padding: 0 7px;
+    min-width: 54px;
+    [data-os="android"] & {
+      padding: 0 10px;
+    }
+    margin: 5px;
+    font-size: 13px;
+  }
+  
+  .cl-content > & {
+    margin: 0 10px;
+  }
+
+  /* Less min width for icon only type buttons */
+  &.cl-btn-icon {
+    min-width: 34px; // +10 = 44
+  }
+  &.cl-btn-icon-only {
+    width: 44px;
+  }
+}
+
+/* Primary buttons */
+.cl-btn-primary {
+  @include button-skin($accent-color-primary);
+  @include button-skin-hover($accent-color);
+}
+
+/* Subtle buttons */
+.cl-btn-subtle {
+  @include button-skin($subtle-color);
+  @include button-skin-hover($accent-color);
+}

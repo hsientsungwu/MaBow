@@ -5,3 +5,30 @@
 .page-logo img {
 	width: 100px;
 }
+
+.count {
+	display: inline-block;
+	padding: 4px 9px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 13px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, .3);
+	border-radius: 100px;
+	margin-left: 10px;
+	position: absolute;
+	right: 30px;
+}
+
+.cl-table-cell a {
+	margin-right: 15px;
+}
+
+.cl-content {
+	padding-bottom: 25px;
+}
+
+.cl-bar-footer {
+	text-align: center;
+	color: white;
+}

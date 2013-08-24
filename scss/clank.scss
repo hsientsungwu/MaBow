@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Clank CSS framework
+   ========================================================================== */
+
+@import "compass";
+@import "clank/vars";
+@import "clank/mixins";
+
+@import "clank/base";
+
+// Devices
+@import "clank/components/device_wraps";
+
+// Components
+@import "clank/components/article";
+@import "clank/components/base-layout";
+@import "clank/components/buttons";
+@import "clank/components/button-groups";
+@import "clank/components/button-positioning";
+@import "clank/components/forms";
+@import "clank/components/alerts";
+@import "clank/components/data-table";
+@import "clank/components/toggles";
+@import "clank/components/sliders";
+@import "clank/components/loading";
+@import "clank/components/table-view";
+@import "clank/components/help-txt";
+@import "clank/components/page-animations";
+
+
+/* ==========================================================================
+   Custom application CSS
+   ========================================================================== */
+
+// App specific icons
+@import "clank/icon-fonts/app/fontcustom"; 
+
+// App specific screens (list your custom CSS per screen here)
+@import "clank/screens/index"; // Empty sample file

@@ -1,0 +1,30 @@
+$device-wraps: true;
+
+$ios-bar-size: 44px;
+$android-bar-size: 50px;
+
+// Default style variables
+
+$background-color: #E6E6E6 !default;
+
+$light-color: #DDD !default;
+$muted-color: #666 !default;
+
+$gradient: true !default;
+
+$functional-shadows: true !default;
+$decorational-shadows: true !default;
+$text-shadows: true !default;
+
+$border-radius: 4px !default;
+
+$accent-color: #15696e !default; // Accent color is supposed to be something like purple, red, blue
+$accent-color-primary: if(lightness($accent-color) >= 50%, scale-saturation(scale-lightness($accent-color, -25%),25%), scale-saturation(scale-lightness($accent-color, 25%),25%));
+$subtle-color: darken($background-color, 5%);
+
+$accent-color-light: false !default;
+$header-font-size: 20px !default;
+
+$text-color: #333 !default;
+$text-color-inverse: #DDD !default;
+$headings-color: darken($text-color, 20%) !default;

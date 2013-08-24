@@ -1,0 +1,147 @@
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+/* Form wrapper
+   ========================================================================== */
+
+.cl-form {
+  margin: 5px 0;
+}
+
+/* Basic input types
+   ========================================================================== */
+
+.cl-form {
+  // Fonts
+  input, select, textarea, option {
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    [data-os="android"] & {
+      font-family: Roboto, Droid Sans, sans-serif;
+    }
+  }
+  
+  textarea {
+    min-height: 88px;
+  }
+
+  // A way to provide rhythm in forms: same margin for all
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="color"],
+  input[type="range"],
+  select,
+  textarea,
+  .radio-list,
+  .checkbox-list  {
+    margin: 5px 10px;
+  }
+  
+  .cl-btn-toolbar {
+    margin: 5px 10px;
+  }
+
+  input[type="range"] {
+    @include calc("width", "100% - 20px");
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="color"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 4px;
+    height: 34px;
+    border-radius: 3px;
+    border: 1px solid #AAA;
+    @include calc("width", "100% - 20px");
+    @include box-shadow(inset 2px 2px 0 rgba(0,0,0,0.1));
+    &:focus {
+      border-color: rgba($accent-color-primary,.8);
+      outline: 0;
+      outline: thin dotted \9; /* IE6-9 */
+      @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba($accent-color-primary,.6));
+    }
+
+  }
+  
+  select[multiple] {
+    min-height: 100px;
+    // Works in FF not in Webkit
+    option {
+      height: 44px;
+      line-height: 44px;
+    }
+  }
+}
+
+/* Radio and checkbox lists
+   ========================================================================== */
+
+.cl-form {
+  .radio-list,
+  .checkbox-list {
+    display: -webkit-flex;
+    padding: 0;
+    input {
+      visibility: hidden;
+      position: absolute;
+      top: -9000em;
+      left: -9000em;
+    }
+    label {
+      line-height: 42px;
+      -webkit-flex: 1;
+      background: #FFF;
+      border: 1px solid $light-color;
+      border-width: 1px 1px 1px 0;
+      &:first-child {
+        @include border-left-radius($border-radius);
+        border-width: 1px;
+      }
+      &:last-child {
+        left: -1px;
+        @include border-right-radius($border-radius);
+      }
+      padding: 10px;
+      line-height: 1.5;
+      position: relative;
+      right: 1px;
+      &:hover {
+        background: $accent-color;
+        border-color: $accent-color;
+        color: #FFF;
+      }
+      &.checked {
+        background: $accent-color;
+        border-color: $accent-color;
+        color: #FFF;
+      }
+    }
+  }
+
+}

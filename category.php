@@ -10,23 +10,25 @@ if ($_GET['id']) {
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/header.template.php'); ?>
 
+<div class="cl-bar-title">
+    <a href="/index.php" class="cl-btn" data-transition="slide-out"><i class="icon-app-arrow-left"></i>Back</a>
+    <h1 class="cl-title"><?php echo $pageTitle; ?></h1>
+</div>
+<div class="cl-content">
+    <div class="cl-table">
+        <?php
+        foreach ($programs as $program) {
+            $video_count = $db->fetchCell("SELECT COUNT(id) FROM Video WHERE program = ?", array($program['id']));
 
-<div class="cl-device-body">
-    <div class="cl-page">
-        <div class="cl-bar-title">
-            <a href="/index.php" class="cl-btn" data-transition="slide-out">Back</a>
-            <h1 class="cl-title"><?php echo $pageTitle; ?></h1>
-        </div>
-        <div class="cl-content">
-            <div class="cl-table">
-                <?php
-                foreach ($programs as $program) {
-                  echo '<div class="cl-table-cell"><a href="program.php?id=' . $program['id'] . '&category=' . $_GET['id']. '" ><span class="label">' . $program['name'] . '</span></a></div>';
-                }
-                ?>
-            </div>
-        </div>
+          echo '<div class="cl-table-cell">
+                <a href="program.php?id=' . $program['id'] . '&category=' . $_GET['id']. '" >
+                    <span class="label">' . $program['name'] . '</span>
+                    <span class="count">' . $video_count . '</span><i class="icon icon-ios-arrow-right"></i>
+                    </a></div>';
+        }
+        ?>
     </div>
 </div>
+        
   
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/frontend/templates/footer.template.php'); ?>

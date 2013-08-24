@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Article
+   ========================================================================== */
+
+.cl-article {
+
+  // Set global line height within articles
+  line-height: 1.4;
+  
+  color: #333;
+  @include text-shadow-white;
+  
+  img {
+    max-width: 100%;
+  }
+
+  p {
+    margin: 10px; /* make use of collapsing margins */
+    & + p {
+      margin-top: 0;
+    }
+  }
+
+  ul, ol {
+    padding: 0;
+    margin: 10px; /* make use of collapsing margins */
+  }
+  
+  & > ul,
+  & > ol {
+    ul, ol {
+      margin: 0;
+    }
+    li {
+      margin-left: 24px;
+    }
+  }
+  
+  h4 {
+    @extend p;
+  }
+  
+  a {
+    color: $accent-color;
+    border-bottom: 1px solid lighten($accent-color, 60%);
+  }
+  
+  & > .cl-table-padded {
+    margin: 10px;
+    @include calc("width", "100% - 20px");
+  }
+
+}
+
+.cl-article-intro {
+  font-size: 16px;
+  line-height: 1.33;
+  background: $accent-color;
+  color: #FFF;
+  text-shadow: none;
+  padding: 10px;
+  margin: 0 0 10px;
+}
