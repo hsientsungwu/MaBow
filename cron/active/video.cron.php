@@ -26,7 +26,7 @@ if (count($channels)) {
 
 		if ($debug) print_r("<br>");
 
-		$uploadsListId = $db->fetchCell("SELECT upload_list_id FROM Channel WHERE id = ?", array($channel_id));
+		$uploadsListId = $db->fetchCell("SELECT upload_list_id FROM Channel WHERE id = ?", array($channel['id']));
 
 		$videos = getVideosFromPlaylist($uploadsListId, 3);
 		
