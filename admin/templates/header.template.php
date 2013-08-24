@@ -24,15 +24,20 @@
 	</head>
 	<body>
 		<div class="row">
+			<div class="large-12 large-centered columns admin-logo">
+				<img src="/img/logoist_logo_nobkg.png" width="200px" />
+			</div>
+		</div>
+		<div class="row">
 			<div class="large-12 large-centered columns">
 				<div class="row">
 					<div class="large-7 large-centered columns">
 						<ul class="inline-list admin-nav">
+							<li><a href="/admin/index.php">統計</a></li>
 							<li><a href="/admin/category.php">種類</a></li>
 							<li><a href="/admin/program.php">節目</a></li>
 							<li><a href="/admin/channel.php">YouTube 頻道</a></li>
 							<li><a href="/admin/special.php">特別節目</a></li>
-							<li><a href="/admin/index.php">統計</a></li>
 						</ul>
 					</div>
 				</div>

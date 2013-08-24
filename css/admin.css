@@ -56,3 +56,11 @@ div.status-switch {
 .programSelect-Template {
 	display: none;
 }
+
+.stat-table td, th {
+	text-align: center !important;
+}
+
+.footer {
+	padding-bottom: 30px;
+}
