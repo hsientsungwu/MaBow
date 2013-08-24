@@ -1,7 +1,9 @@
 <html>
   <head>
     <title><?php echo ($pageTitle ? $pageTitle : '媽寶 - 線上影音'); ?></title>
-    
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/iphone-icon.png"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -15,14 +17,16 @@
 	 </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="/css/frontend.css">
+    <link rel="stylesheet" href="/css/clank.css">
+    
+    <script type="text/javascript" src="/support/components/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/support/components/prefix-free/prefixfree.min.js"></script>
 
-    <link rel="stylesheet" href="css/clank.css">
-    <script type="text/javascript" src="components/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="components/prefix-free/prefixfree.min.js"></script>
-
-    <script type="text/javascript" src="js/clank/ratchet/fingerblast.js"></script>
-    <script type="text/javascript" src="js/clank/ratchet/slider.js"></script>
-    <script type="text/javascript" src="js/clank/ratchet/toggles.js"></script>
-    <script type="text/javascript" src="js/clank/clank.js"></script>
+    <script type="text/javascript" src="/js/clank/ratchet/fingerblast.js"></script>
+    <script type="text/javascript" src="/js/clank/ratchet/sliders.js"></script>
+    <script type="text/javascript" src="/js/clank/ratchet/toggles.js"></script>
+    <script type="text/javascript" src="/js/clank/clank.js"></script>
   </head>
   <body data-os="ios">
+    
