@@ -32,3 +32,12 @@
 	text-align: center;
 	color: white;
 }
+
+.cl-table-cell {
+	min-height: 60px !important;
+}
+
+.cl-table-cell .label {
+	font-size:	20px !important;
+	line-height: 40px !important;
+}
