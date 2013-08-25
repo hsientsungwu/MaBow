@@ -18,7 +18,7 @@ function clean_input($var) {
 function send_email($content) {	
 	global $ADMIN_EMAIL, $SYSTEM_EMAIL;
 	// subject
-	$subject = '[MABOW] ' . $content['subject'];
+	$subject = '[Mabow] ' . $content['subject'];
 	$body = $content['body'];
 
 	// message
