@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><?php echo ($pageTitle ? $pageTitle : '媽寶 - 線上影音'); ?></title>
+    <title><?php echo ($pageTitle ? $pageTitle : '媽寶'); ?></title>
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/apple-icon-57x57-precomposed.png" />
@@ -30,5 +30,5 @@
     
   </head>
   <body data-os="ios">
-    <div class="cl-device-body">
-        <div class="cl-page">
+        <div class="cl-device-body">
+            <div class="cl-page">

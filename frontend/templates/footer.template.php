@@ -1,8 +1,9 @@
-		<div class="cl-bar-footer">
-            <h4 style="text-align: center;">&copy; Copyright 2013 媽寶-線上影音</h4>
-        </div>
-    </div>
-</div>
+			<div class="cl-bar-footer">
+	            <h4 style="text-align: center;">&copy; Copyright 2013 媽寶-線上影音</h4>
+	        </div>
+	    </div>
+	</div>
+	
 <?php
 	if (count($scripts)) {
 		foreach ($scripts as $script) {
