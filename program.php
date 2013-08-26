@@ -2,7 +2,7 @@
 require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 if ($_GET['id']) {
-	$videos = $db->fetchRows("SELECT * FROM Video WHERE program = ? ORDER BY date DESC", array($_GET['id']));
+	$videos = $db->fetchRows("SELECT * FROM Video WHERE program = ? ORDER BY title_date DESC", array($_GET['id']));
 
 	$pageTitle = $db->fetchCell("SELECT name FROM Program WHERE id = ?", array($_GET['id']));
 }
