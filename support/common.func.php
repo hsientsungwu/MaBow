@@ -39,7 +39,7 @@ function send_email($content) {
 
 	// Additional headers
 	$headers .= 'To: HTWU Webmaster<' . $ADMIN_EMAIL . '>' . "\r\n";
-	$headers .= 'From: HTWU No-Reply Message<' . $SYSTEM_EMAIL . '>' . "\r\n";
+	$headers .= 'From: HTWU No-Reply<' . $SYSTEM_EMAIL . '>' . "\r\n";
 
 	// Mail it
 	$result = mail($to, $subject, $message, $headers);
