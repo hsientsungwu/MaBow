@@ -14,8 +14,10 @@ function logThis($content, $type = LogType::ERROR) {
 
 	$emailContent['body'] = print_array_recursive($content['message']);
 
-	send_email($emailContent);
-
+	if ($content['debug'] || $content['video_count'] > 0) {
+		send_email($emailContent);
+	} 
+	
 	return ($affected) ? true : false;
 }
 

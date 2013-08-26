@@ -80,7 +80,16 @@ if (count($channels)) {
 	}
 }
 
-logThis(array('source' => 'YouTube Hourly Cron - ' . $video_stored_count . ' videos', 'message' => $cron_reports), LogType::CRON);
+$video_stored_count_msg = ($video_stored_count > 0 ? 'with videos stored' : 'with no videos stored');
+
+$content = array(
+	'source' => 'YouTube Hourly Cron ' . $video_stored_count_msg,
+	'message' => $cron_reports, 
+	'debug' => ($debug ? true : false), 
+	'video_count' => $video_stored_count
+);
+
+logThis($content, LogType::CRON);
 
 $endTime = time();
 
