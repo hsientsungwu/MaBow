@@ -10,7 +10,7 @@ function logThis($content, $type = LogType::ERROR) {
 
 	$affected = $db->insert($newLog, 'Log');
 
-	$emailContent['subject'] = LogType::getLogTypeText($type) . " from {$content['source']}";
+	$emailContent['subject'] = $content['source'];
 
 	$emailContent['body'] = print_array_recursive($content['message']);
 
