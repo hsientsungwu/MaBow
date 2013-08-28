@@ -18,15 +18,9 @@
     <link rel="stylesheet" href="/css/frontend.css">
     <link rel="stylesheet" href="/css/clank.css">
     <link rel="stylesheet" href="/css/add2home.css">
-    
     <script type="text/javascript" src="/support/components/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/support/components/prefix-free/prefixfree.min.js"></script>
-    <script type="text/javascript" src="/js/clank/ratchet/fingerblast.js"></script>
-    <script type="text/javascript" src="/js/clank/ratchet/sliders.js"></script>
-    <script type="text/javascript" src="/js/clank/ratchet/toggles.js"></script>
     <script type="text/javascript" src="/js/clank/clank.js"></script>
-    <script type="application/javascript" src="/js/add2home.js" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="/js/stayInWebApp/jquery.stayInWebApp.js"></script>
   </head>
   <body data-os="ios">
         <div class="cl-device-body">
