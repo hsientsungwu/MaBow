@@ -11,6 +11,13 @@
 		}
 	}   
 ?>
+		
+	    <script type="text/javascript" src="/support/components/prefix-free/prefixfree.min.js"></script>
+	    <script type="text/javascript" src="/js/clank/ratchet/fingerblast.js"></script>
+	    <script type="text/javascript" src="/js/clank/ratchet/sliders.js"></script>
+	    <script type="text/javascript" src="/js/clank/ratchet/toggles.js"></script>
+	    <script type="application/javascript" src="/js/add2home.js" charset="utf-8"></script>
+	    <script type="application/javascript" src="/js/frontend.js" charset="utf-8"></script>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
