@@ -47,7 +47,7 @@ h3.video-title {
 <div class="cl-content">
     <div class="cl-article">
         <h3 class="video-title"><?php echo $pageTitle; ?></h3>
-        <p class="video-container"><iframe src="http://www.youtube.com/embed/<?php echo $videoId; ?>"></iframe></p>
+        <p class="video-container"><iframe src="http://www.youtube.com/embed/<?php echo $videoId; ?>" allowfullscreen></iframe></p>
     </div>
 </div>
 
