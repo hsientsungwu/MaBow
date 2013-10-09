@@ -82,6 +82,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/admin/templates/header.template.php';
 								      						<span class="sort-action"><img src="/img/sort-icon.png" /></span>'
 					      									. $programData['name'] . 
 					      									'<span class="list-action">
+					      										<a href="videos.php?program=' . $programData['id'] . '"><img src="/img/edit-icon.png" /></a>
 					      										<a href="program.php?id=' . $programData['id'] . '"><img src="/img/edit-icon.png" /></a>
 					      										<a href="program.php?delete=' . $programData['id'] . '"><img src="/img/delete-icon.png"/></a>
 					      									</span>
