@@ -71,7 +71,11 @@ if (count($channels)) {
 						$cron_reports[$program['name']]++;
 					} else {
 
-						if (strstr($video_title, 'part')) {
+						if (strstr($video_title, 'part1') || strstr($video_title, 'part2') || strstr($video_title, 'part3') || strstr($video_title, 'part4') || 
+							strstr($video_title, '1/4') || strstr($video_title, '2/4') || strstr($video_title, '3/4') || strstr($video_title, '4/4') ||
+							strstr($video_title, '001') || strstr($video_title, '002') || strstr($video_title, '003') || strstr($video_title, '004') || 
+							strstr($video_title, '005') || strstr($video_title, '006') || strstr($video_title, '007')
+						) {
 							$updatedVideoData = renameVideoTitle($video_title, $program['name']);
 
 							if (!isVideoExistedWithName($updatedVideoData['title'])) {
