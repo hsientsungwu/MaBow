@@ -69,6 +69,32 @@ if (count($channels)) {
 
 						$video_stored_count++;
 						$cron_reports[$program['name']]++;
+					} else {
+
+						if (strstr($video_title, 'part')) {
+							$updatedVideoData = renameVideoTitle($video_title, $program['name']);
+
+							if (!isVideoExistedWithName($updatedVideoData['title'])) {
+								$newVideo = array(
+									'video_id' => $video['contentDetails']['videoId'],
+									'date' => $video['snippet']['publishedAt'],
+									'name' => $updatedVideoData['title'],
+									'description' => ($titleTranslation ? translateIntoTraditionalChinese($video['snippet']['description']) : $video['snippet']['description']),
+									'title_date' => ($updatedVideoData['type'] == VideoType::REGULAR ? $updatedVideoData['date'] : $video['snippet']['publishedAt']),
+									'program' => $program['id'],
+									'channel' => $channel['id'],
+									'type' => $updatedVideoData['type'],
+									'status' => Status::ACTIVE,
+								);
+
+								if ($debug) print_r("{$newVideo['name']} - stored");
+
+								if (!$testing) $db->insert($newVideo, 'Video');
+
+								$video_stored_count++;
+								$cron_reports[$program['name']]++;
+							}
+						}
 					}
 				}
 			}

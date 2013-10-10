@@ -44,6 +44,13 @@ function isVideoExisted($video_id) {
 	return ($isExisted ? true : false);
 }
 
+function isVideoExistedWithName($video_name) {
+	global $db;
+	$isExisted = $db->fetchRow("SELECT id FROM Video WHERE name = ?", array($video_name));
+
+	return ($isExisted ? true : false);
+}
+
 function isVideoExistedWithDateValidation($video_id, $program, $video) {
 	global $db;
 
